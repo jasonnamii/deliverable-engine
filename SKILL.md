@@ -2,19 +2,19 @@
 name: deliverable-engine
 description: |
   산출물 품질 엔진. 모든 도메인스킬의 .md 산출물을 능동적으로 받아 구조·블록·QC를 적용하는 중앙 허브. 단독 작성도 관장. 디자인은 design-skill에 위임.
-  P1: 산출물, deliverable, 문서작성, 문서편집, 보고서, 기획안, 분석문서, 제안서, 정리문서, 학습노트, 위키문서, 진단서, 전략서, 리포트, 컨설팅보고서, 프로파일, 설계안, 처방서, 액션리스트.
+  P1: 산출물, deliverable, 문서작성, 문서편집, 보고서, 기획안, 분석문서, 제안서, 정리문서, 학습노트, 위키문서, 진단서, 전략서, 리포트, 컨설팅보고서, 프로파일, 설계안, 처방서, 액션리스트, HTML문서, HTML작성, 웹문서, 웹페이지작성.
   P2: 작성해줘, 편집해줘, 써줘, ~로 만들어줘, ~로 정리해줘, write, edit, create, draft.
-  P3: deliverable engine, document quality, block design, hourglass structure, cascade.
-  P5: .md로, 문서로, 옵시디언으로, 보고서로, 진단서로, 전략서로, 리포트로.
+  P3: deliverable engine, document quality, block design, hourglass structure, cascade, HTML document.
+  P5: .md로, .html로, 문서로, 옵시디언으로, 보고서로, 진단서로, 전략서로, 리포트로, 웹문서로.
   NOT: 데이터저장·시스템로그(→직접수행), 세션브리핑(→session-briefing), BP(→bp-guide).
 ---
 
 <!-- Trigger Conditions
-P1: 산출물, deliverable, 문서작성, 문서편집, 보고서, 기획안, 분석문서, 제안서, 정리문서, 학습노트, 위키문서, 진단서, 전략서, 리포트, 컨설팅보고서, 프로파일, 설계안, 처방서, 액션리스트.
+P1: 산출물, deliverable, 문서작성, 문서편집, 보고서, 기획안, 분석문서, 제안서, 정리문서, 학습노트, 위키문서, 진단서, 전략서, 리포트, 컨설팅보고서, 프로파일, 설계안, 처방서, 액션리스트, HTML문서, HTML작성, 웹문서, 웹페이지작성.
 P2: 작성해줘, 편집해줘, 써줘, ~로 만들어줘, ~로 정리해줘, 문서로, write, edit, create, draft.
-P3: deliverable engine, document quality, block design, hourglass structure, cascade.
-P4: 구조화된 서술이 포함된 문서 작성시, 산출물 구조적 편집시, **타 스킬이 .md 산출물을 파일로 생성할 때 자동 적용**, 사용자가 "~로 만들어줘/보고서로/진단서로" 등 출력 포맷을 지정할 때, **대화 중 문서화 의도 1%라도 감지 시 선제 제안** (§0-A).
-P5: .md로, 문서로, 옵시디언으로, 보고서로, 진단서로, 전략서로, 리포트로.
+P3: deliverable engine, document quality, block design, hourglass structure, cascade, HTML document.
+P4: 구조화된 서술이 포함된 문서 작성시, 산출물 구조적 편집시, **타 스킬이 .md/.html 산출물을 파일로 생성할 때 자동 적용**, 사용자가 "~로 만들어줘/보고서로/진단서로/.html로" 등 출력 포맷을 지정할 때, **대화 중 문서화 의도 1%라도 감지 시 선제 제안** (§0-A).
+P5: .md로, .html로, 문서로, 옵시디언으로, 보고서로, 진단서로, 전략서로, 리포트로, 웹문서로.
 NOT: 데이터저장·시스템로그·리서치raw dump(→직접수행), 세션브리핑(→session-briefing), BP(→bp-guide).
 -->
 
