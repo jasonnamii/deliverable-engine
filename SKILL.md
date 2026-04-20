@@ -1,12 +1,12 @@
 ---
 name: paper-engine
-version: 1.0.0
+version: 1.1.0
 description: |
-  paper-engine(페이퍼엔진) — 산출물 품질 중앙 허브. 모든 도메인스킬의 .md/.html 산출물에 구조(모래시계)·블록(7규칙)·QC(4축)를 cascade 자동 주입. 단독 문서 생산도 관장. 디자인 위임은 design-skill.
+  paper-engine(페이퍼엔진) — 산출물 품질 중앙 허브. 모든 도메인스킬의 .md/.html 산출물에 구조(모래시계)·블록(7규칙)·QC(4축) + **시각소스 감지 훅** cascade 자동 주입. HTML 생성시 시각소스(수치비교·시간축·프로세스·순환·매트릭스·핵심수치) 감지→design-skill C9로 전달. 단독 문서 생산도 관장. 디자인 위임은 design-skill.
   P1: 산출물, deliverable, paper-engine, 페이퍼엔진, 보고서, 기획안, 제안서, 학습노트, 위키문서, 진단서, 전략서, 리포트, 컨설팅보고서, 프로파일, 설계안, 처방서, 액션리스트, HTML문서, 웹문서.
   P2: 써줘, 편집해줘, 드래프트해줘, 뽑아줘, ~로 만들어줘, write, edit, draft, compose.
-  P3: deliverable engine, paper engine, document quality hub, block design, hourglass structure, cascade pipeline.
-  P4: 구조화된 서술 문서 생산시, 산출물 구조 편집시, 타 스킬이 md/html 파일 생성시 자동 cascade, 사용자가 "보고서로/진단서로/html로" 등 포맷 지정시, 문서화 의도 1% 감지시 선제 제안(§0-A).
+  P3: deliverable engine, paper engine, document quality hub, block design, hourglass structure, cascade pipeline, visualization hook.
+  P4: 구조화된 서술 문서 생산시, 산출물 구조 편집시, 타 스킬이 md/html 파일 생성시 자동 cascade, 사용자가 "보고서로/진단서로/html로" 등 포맷 지정시, 문서화 의도 1% 감지시 선제 제안(§0-A), HTML 산출물에 시각소스 2+ 감지시 design-skill 시각요소 요청.
   P5: md파일로, html파일로, 옵시디언으로, 보고서로, 진단서로, 전략서로, 리포트로, 웹문서로, 기획안으로.
   NOT: 데이터저장·시스템로그·raw dump(→직접수행), 세션브리핑(→session-briefing), 사업계획서(→bp-guide), 제출청소(→trigger-dictionary).
 vault_dependency: SOFT
@@ -43,7 +43,9 @@ vault_dependency: SOFT
 
 **§0-A 의도 1% 게이트:** 문서 의도 감지 → 1문장 제안, 수락 전까지 대화. P2 동사 명시 → 즉시 §1.
 
-**5단계:** ⓐ spine → ⓑ 모래시계+블록 → ⓒ 제목 → ⓓ QC → ⓔ 디자인 위임. 2패스 ✗. spine 폴백(데이터·리스트) → 참조형.
+**5단계:** ⓐ spine → ⓑ 모래시계+블록 → ⓒ 제목 → ⓓ QC → ⓔ 디자인 위임(HTML시 **시각소스 목록 동반 전달**). 2패스 ✗. spine 폴백(데이터·리스트) → 참조형.
+
+**시각소스 감지 훅(HTML·웹MD 전용):** ⓑ 블록 설계 중 수치비교·시간축·프로세스·순환·2축분류·핵심수치·비율·퍼널 신호를 태깅(V1~V10). ⓔ에서 design-skill에 블록별 시각소스 목록을 전달 → design-skill C9 강제 발동. 상세 → `references/cascade-protocol.md §12`.
 
 ---
 
@@ -103,6 +105,8 @@ python scripts/validate.py .    # errors=[] 통과, 루프 하드캡 2회
 | 내부 라벨 노출 | STEALTH |
 | ⓑⓒ 2패스 | 1회 통합 |
 | 이름 이력 | deliverable→paper(v1.0+) |
+| HTML인데 표·문장만 | ⓑ에서 V1~V10 태깅 → ⓔ에 전달 |
+| 시각소스 감지 누락 → 타이포만 예쁜 HTML | cascade-protocol.md §12 체크리스트 |
 | 엣지케이스 | 착수 전 점검 |
 
 ---
