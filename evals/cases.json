@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "id": "C1-cascade-html-visual",
+      "input": "biz-skill 진단 결과를 HTML 보고서로 뽑아줘. 4방향 비교 점수, 10년 로드맵, 4단계 계약 프로세스 포함.",
+      "expected": "HTML 생성 시 시각소스 3종 태깅: V1(바차트/레이더) + V2(타임라인) + V3(플로우). design-skill에 목록 전달 → C9 발동 → 시각요소 3개+ 삽입.",
+      "axis": "visualization-hook",
+      "tier": "full"
+    },
+    {
+      "id": "C2-cascade-md-serialize",
+      "input": "risk-radar 결과 md로. 확률×임팩트 매트릭스와 리스크 10종.",
+      "expected": "md 산출물 생성 — 매트릭스 표+서사 엮기 변환 적용. md 포맷이므로 시각소스 훅 미발동(HTML/웹MD 전용). QC 4축 전수.",
+      "axis": "md-pathway",
+      "tier": "full"
+    },
+    {
+      "id": "C3-passthrough-short",
+      "input": "내부 메모 10줄 정리.",
+      "expected": "20행 이하 내부 용도 → 패스스루 티어. 1블록1목적만 적용. spine·블록전환·밀도대비 면제. 시각소스 훅 미발동.",
+      "axis": "tier-gate",
+      "tier": "passthrough"
+    }
+  ]
+}
