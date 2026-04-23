@@ -143,10 +143,14 @@ vault_dependency: SOFT
 ```
 ① PREFLIGHT(수신자·목적·핵심메시지) → ② MODE_ROUTER → ③ NYT_STRUCTURE 작성
 → ④ DELETION_FIRST_EDIT(3패스) → ⑤ DENSITY_CHECK(4항) → ⑥ FORMAT 검증
-→ ⑦ [HTML] 시각소스 design-skill cascade → ⑧ 산출
+→ ⑦ [HTML] 시각소스 design-skill cascade
+→ ⑧ [HTML] 모바일 QC 게이트 — `bash mnt/.claude/skills/design-skill/scripts/qc-mobile.sh output.html`
+  · R2·R4b·R8·R9·R10·R11·R1a 정적 grep 검사
+  · FAIL 시 design-skill responsive.md 참조 후 재수정. 루프 하드캡 2회.
+→ ⑨ 산출
 ```
 
-QC 없이 전달 = FAIL.
+QC 없이 전달 = FAIL. 모바일 375px 실측 미검증 = FAIL.
 
 ---
 
@@ -172,6 +176,7 @@ python scripts/validate.py .    # errors=[] 통과, 루프 하드캡 2회
 | 수동태 "검토되었다" | §E-2 능동태 |
 | 모호동사 "영향 미친다" | §E-2 구체동사 "15% 감소" |
 | HTML 시각소스 미전달 | §F V1~V10 태깅 + design-skill C9 cascade |
+| HTML 모바일 QC 누락 | §G-⑧ qc-mobile.sh 필수. 데스크톱만 보고 제출 = 모바일 깨짐 수정 루프 3~5회 발생 |
 | cascade 미적용 | md/html 생성 시 자동 발동 |
 | 내부 라벨 노출 | STEALTH (§·MODE·ⓐ 본문 ✗) |
 | 모래시계 명칭 사용 | v2.0부터 "압정(pin)". 별칭 허용, 신규 문서는 압정 |
