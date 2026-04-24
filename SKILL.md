@@ -1,12 +1,12 @@
 ---
 name: paper-engine
-version: 2.0.0
+version: 2.1.0
 description: |
   paper-engine(페이퍼엔진) — NYT스타일 산출물 허브. 역피라미드·압정구조·3패스삭제·4항밀도QC. 산문체 FORBIDDEN, 불릿·헤더·수치·단문 MANDATORY.
   P1: 산출물, 페이퍼엔진, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, NYT스타일, 역피라미드, 압정구조, 컨설팅보고서, 프로파일, 처방서.
   P2: 써줘, 편집해줘, 드래프트해줘, 뽑아줘, write, draft.
   P3: inverse pyramid, pin structure, NYT style, deletion-first, density check.
-  P4: md/html 생성시, 타 스킬 md cascade, 문서화 감지시.
+  P4: md/html 생성, 타 스킬 리포트 cascade, MUST→design-skill.
   P5: md파일로, html파일로, 보고서로, 진단서로, 리포트로.
   NOT: 세션브리핑(→session-briefing), 사업계획서(→bp-guide), 제출청소(→trigger-dictionary).
 vault_dependency: SOFT
@@ -28,7 +28,8 @@ vault_dependency: SOFT
 | 4 | **3패스 삭제 의무** — 형용사·부사·연결어·중복 제거 후 산출 | 지방 잔존 |
 | 5 | **4항 밀도QC** — 주제문 · 모호동사 · 중복 · 문단당 구체사실≥1 | 밀도 미달 |
 | 6 | **STEALTH** — 내부 라벨(§·MODE·ⓐ~) 본문 노출 ✗ | 사용자 혼란 |
-| 7 | **디자인 위임** — design-skill 단일 권위. 구조·블록·QC만 | 역할 중복 |
+| 7 | **MUST cascade → design-skill** — 포맷 결정권은 design-skill 단일 권위. paper-engine 단독 출력 = FAIL. md/html 산출 직전 반드시 design-skill 호출 | 포맷 혼재·렌더 붕괴 |
+| 8 | **DEFAULT_RENDER = 순수 마크다운** — `.md` 산출 시 `<div>`·`<span>`·`style=`·인라인 HTML 전면 FORBIDDEN. 헤더·불릿·표·인용(`>`)·이모지만 허용. **예외**: 사용자가 `"HTML로"·"박스로"·"벤토로"·"시각화"·"카드로"` 명시시에만 html-div-style·apple-box-design cascade 경유 | 옵시디언·GitHub 렌더 깨짐 |
 
 ---
 
@@ -42,6 +43,22 @@ vault_dependency: SOFT
 | 500~2000자 | **MODE_M** | NYT 리드 + 압정(pin) |
 | >2000자 | **MODE_L** | NYT 풀구조 (Headline·Lead·Nut·Body) |
 | 용도 "상세·풀버전" | MODE_L 강제 | — |
+
+### §A-2. RENDER_ROUTER (포맷 결정 MUST cascade)
+
+**§A 직후 필수 실행.** 산출 포맷 결정 = design-skill 위임.
+
+| 확장자 | 사용자 명시 키워드 | 결과 | design-skill cascade |
+|---|---|---|---|
+| `.md` | (없음) | **순수 md** — div·style ✗ | MUST — md 포맷·구조·이모지 가이드 |
+| `.md` | "HTML로"·"박스로"·"벤토로"·"시각화"·"카드로" | md + 제한적 div | MUST — html-div-style 경유 |
+| `.html` | (모든 경우) | 풀 HTML | MUST — design-skill C9 강제 |
+| `.pdf`·`.docx`·`.pptx` | — | 전용 스킬 | MUST — 전용 스킬 cascade |
+
+**위반 시 FAIL:**
+- `.md`에 `<div style="border...">` 삽입 = 절대규칙 #8 위반
+- design-skill 미호출 = 절대규칙 #7 위반
+- paper-engine 단독 출력 = 절대규칙 #7 위반
 
 ---
 
@@ -141,13 +158,17 @@ vault_dependency: SOFT
 ## §G. 파이프라인
 
 ```
-① PREFLIGHT(수신자·목적·핵심메시지) → ② MODE_ROUTER → ③ NYT_STRUCTURE 작성
-→ ④ DELETION_FIRST_EDIT(3패스) → ⑤ DENSITY_CHECK(4항) → ⑥ FORMAT 검증
-→ ⑦ [HTML] 시각소스 design-skill cascade
+① PREFLIGHT(수신자·목적·핵심메시지) → ② MODE_ROUTER → ②-b RENDER_ROUTER(§A-2)
+→ ③ NYT_STRUCTURE 작성 → ④ DELETION_FIRST_EDIT(3패스) → ⑤ DENSITY_CHECK(4항) → ⑥ FORMAT 검증
+→ ⑦ **design-skill cascade MUST** (모든 산출물 · md/html/pdf/docx/pptx 전체)
+  · `.md` 순수마크다운 → design-skill md 가이드
+  · `.md` + 박스·시각화 명시 → html-div-style·apple-box-design
+  · `.html` → design-skill C9 + 시각소스 V1~V10
 → ⑧ [HTML] 모바일 QC 게이트 — `bash mnt/.claude/skills/design-skill/scripts/qc-mobile.sh output.html`
   · R2·R4b·R8·R9·R10·R11·R1a 정적 grep 검사
   · FAIL 시 design-skill responsive.md 참조 후 재수정. 루프 하드캡 2회.
-→ ⑨ 산출
+→ ⑨ [MD] div 위반 검사 — `grep -E "<div|style=" output.md` 결과 ≠ ∅ 시 사용자 명시 예외 확인. 예외 ✗ 면 FAIL → 재작성
+→ ⑩ 산출
 ```
 
 QC 없이 전달 = FAIL. 모바일 375px 실측 미검증 = FAIL.
@@ -181,6 +202,9 @@ python scripts/validate.py .    # errors=[] 통과, 루프 하드캡 2회
 | 내부 라벨 노출 | STEALTH (§·MODE·ⓐ 본문 ✗) |
 | 모래시계 명칭 사용 | v2.0부터 "압정(pin)". 별칭 허용, 신규 문서는 압정 |
 | UP §6 충돌 | UP §6은 대화 출력, paper-engine은 문서. MODE_S에서만 §6 3블록 공유 |
+| `.md`에 `<div style>` 삽입 | 절대규칙 #8 위반 = FAIL. 옵시디언·GitHub 렌더 깨짐 빈번. 사용자가 "HTML로·박스로·벤토로" 명시 ✗ 면 순수 md만 |
+| design-skill 미호출 | 절대규칙 #7 위반 = FAIL. paper-engine 단독 출력 ✗. §G-⑦ MUST cascade |
+| 21개 spoke 스킬 리포트 cascade | biz·hit·human·ads·person·ruby·management·sales·brand·copy·nego·contract·startup·holdings·risk·benchmark·app-and-jang·data·policy·consulting 모두 §4.5에서 paper-engine 강제. spoke 미준수 감지 시 paper-engine이 리포트 재구성 |
 
 ---
 
