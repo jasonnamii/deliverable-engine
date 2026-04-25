@@ -1,13 +1,11 @@
 ---
 name: paper-engine
-version: 2.3.0
+version: 2.4.0
 description: |
   paper-engine(페이퍼엔진) — NYT스타일 산출물 허브. 역피라미드·압정·3패스·4항QC. v2.3: DOC_TYPE 4분기(전달/진단/평가/수렴) + Claim-Evidence-Warrant + 반대주장 박스 + 수치맥락 + Pin↔Body 매핑 + 의사결정 매핑.
-  P1: 산출물, 페이퍼엔진, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, NYT스타일, 역피라미드, 압정구조, 컨설팅보고서, 프로파일, 처방서, 평가보고서, 수렴리포트, 종합분석, 비교분석, DOC_TYPE, Claim-Evidence-Warrant, CEW, 반대주장, Pin매핑, 수치맥락.
-  P2: 써줘, 편집해줘, 드래프트해줘, 뽑아줘, 통합해줘, 비교해줘, 평가해줘, 종합해줘, write, draft, evaluate, converge.
-  P3: inverse pyramid, pin structure, NYT style, deletion-first, density check, doc type router, claim evidence warrant, counterargument box.
-  P4: md/html 생성, cascade, 다소스 통합, 비교평가.
-  P5: md파일로, html파일로, 보고서로, 진단서로, 리포트로, 평가서로, 수렴리포트로.
+  P1: 산출물, 페이퍼엔진, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, 컨설팅보고서, 처방서, 평가보고서, 수렴리포트, 종합분석, 비교분석, 문서, 문서작성, 글쓰기, 작성, 글, 정리, 요약서, 요약문, 결과물, 아웃풋, 1pager, 문서화, 플레이북, 스크립트, 진단리포트, 처방전, 설계안, 분석결과, 협상전략서, 협상분석, 캠페인브리프, 미디어플랜, 복기리포트, 리뷰메모, 레드라인, 설득안, 검증보고서, 분석메모, RCA보고서, 리스크보고서, 대시보드, 리뷰보고서, 아젠다, 회의록, 액션아이템, 진단결과, 상담노트, 평가서, 비교표, PRD, 계획서, 내용정리, 글작성.
+  P2: 써줘, 써, 적어줘, 편집해줘, 드래프트해줘, 뽑아줘, 통합해줘, 비교해줘, 평가해줘, 작성해줘, 만들어줘, 정리해줘, 생성해줘, 문서화해줘, 글써줘, write, draft, evaluate, converge, create, generate, produce.
+  P5: md파일로, html파일로, 보고서로, 진단서로, 리포트로, 평가서로.
   NOT: 세션브리핑(→session-briefing), 사업계획서(→bp-guide), 제출청소(→trigger-dictionary).
 vault_dependency: SOFT
 ---
