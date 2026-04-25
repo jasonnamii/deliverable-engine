@@ -1,11 +1,12 @@
 ---
 name: paper-engine
-version: 2.5.0
+version: 2.6.0
 description: |
-  paper-engine(페이퍼엔진) — NYT스타일 산출물 허브. 역피라미드·압정·3패스·4항QC. v2.5: NO_WORK_LABEL 본질보호 게이트(산출물·대화 = 인간 언어, 작업 라벨 ZERO, 1만 페이지 1단어=FAIL, 판정질문 "사전 없이 읽히나?"). v2.3: DOC_TYPE 4분기(전달/진단/평가/수렴) + Claim-Evidence-Warrant + 반대주장 박스 + 수치맥락 + Pin↔Body 매핑 + 의사결정 매핑.
-  P1: 산출물, 페이퍼엔진, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, 컨설팅보고서, 처방서, 평가보고서, 수렴리포트, 종합분석, 비교분석, 문서, 문서작성, 글쓰기, 작성, 글, 정리, 요약서, 요약문, 결과물, 아웃풋, 1pager, 문서화, 플레이북, 스크립트, 진단리포트, 처방전, 설계안, 분석결과, 협상전략서, 협상분석, 캠페인브리프, 미디어플랜, 복기리포트, 리뷰메모, 레드라인, 설득안, 검증보고서, 분석메모, RCA보고서, 리스크보고서, 대시보드, 리뷰보고서, 아젠다, 회의록, 액션아이템, 진단결과, 상담노트, 평가서, 비교표, PRD, 계획서, 내용정리, 글작성.
-  P2: 써줘, 써, 적어줘, 편집해줘, 드래프트해줘, 뽑아줘, 통합해줘, 비교해줘, 평가해줘, 작성해줘, 만들어줘, 정리해줘, 생성해줘, 문서화해줘, 글써줘, write, draft, evaluate, converge, create, generate, produce.
-  P5: md파일로, html파일로, 보고서로, 진단서로, 리포트로, 평가서로.
+  paper-engine — NYT 산출물 허브. v2.6: HERO 형식(섹션 첫 줄=압축 한 문장, HERO만 읽어도 분석→핵심→아이템 서사) + 어조 룰. v2.5: 작업라벨 본질보호. v2.3: DOC_TYPE 4분기·CEW·반대주장.
+  P1: 산출물, 페이퍼엔진, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, 비교분석, 글쓰기, 1pager, 플레이북, PRD, HERO, 히어로, 히어로타입.
+  P2: 써줘, 적어줘, 작성해줘, 만들어줘, 정리해줘, write, draft, create.
+  P3: NYT inverted pyramid, claim-evidence-warrant, document type router, hero format.
+  P5: md파일로, html파일로, 보고서로.
   NOT: 세션브리핑(→session-briefing), 사업계획서(→bp-guide), 제출청소(→trigger-dictionary).
 vault_dependency: SOFT
 ---
@@ -13,30 +14,33 @@ vault_dependency: SOFT
 # Paper Engine — NYT 스타일 산출물 허브
 
 산출물 품질 중앙 허브. 산문체 금지, NYT(역피라미드·압정) 강제. 불릿·헤더·수치·인용·단문 필수.
-**v2.5:** **NO_WORK_LABEL 본질보호 게이트** — 산출물·대화 = 인간 언어. 작업 라벨 ZERO. 1만 페이지 1단어 = FAIL.
-**v2.3:** DOC_TYPE 분기·CEW·반대주장·Pin↔Body 의무 추가.
+**v2.6:** **HERO 형식 기본 모드** — 섹션마다 첫 줄 = 압축 한 문장. HERO만 읽어도 방향성. 어조 룰 동시 발효.
+**v2.5:** **작업라벨 본질보호 게이트** — 산출물·대화 = 인간 언어. 1만 페이지 1단어 = FAIL.
+**v2.3:** DOC_TYPE 분기·CEW·반대주장·Pin↔Body 의무.
 
 ---
 
-## ⛔ 절대 규칙 (13)
+## ⛔ 절대 규칙 (15)
 
 | # | 규칙 | 위반 |
 |---|------|------|
 | 1 | **게이트키퍼** md/html cascade 자동 | 품질 붕괴 |
-| 2 | **산문체 FORBIDDEN** 긴문장·연결어 ✗·불릿·단문·수치 필수 | NYT 위반 |
+| 2 | **산문체 FORBIDDEN** 긴문장·연결어 금지·불릿·단문·수치 필수 | NYT 위반 |
 | 3 | **역피라미드** 결론 1st·뒤 30% 삭제 생존 | 귀납 = FAIL |
 | 4 | **3패스 삭제** 형부·연결어·중복 | 지방 잔존 |
 | 5 | **4항 밀도QC** 주제문·모호동사·중복·구체사실≥1 | 밀도 미달 |
-| 6 | **STEALTH** 내부 라벨 본문 노출 ✗ | 사용자 혼란 |
+| 6 | **STEALTH** 내부 라벨 본문 노출 금지 | 사용자 혼란 |
 | 7 | **MUST cascade → design-skill** | 포맷 혼재 |
-| 8 | **DEFAULT_RENDER 순수MD** `.md`에 div·style ✗ (예외: 명시) | 렌더 깨짐 |
+| 8 | **DEFAULT_RENDER 순수MD** `.md`에 div·style 금지 (예외: 명시) | 렌더 깨짐 |
 | 9 | **DOC_TYPE 분기 (v2.3)** 4종(DELIVER/DIAGNOSE/EVALUATE/CONVERGE)·압정비율 차등 | 사고형 본문 압살 |
-| 10 | **Claim-Evidence-Warrant (v2.3)** 모든 주장=C+E+W. 1개라도 ✗=FAIL | 등급만 적층 |
+| 10 | **Claim-Evidence-Warrant (v2.3)** 모든 주장=C+E+W. 1개라도 누락=FAIL | 등급만 적층 |
 | 11 | **Pin↔Body 매핑 (v2.3)** 압정 N개 ↔ Body N개 1:1. 압정만=FAIL | 떠있는 결론 |
 | 12 | **반대주장 박스 (v2.3)** MODE_M·L Body당 1+ 의무 | 선전문화 |
-| 13 | **NO_WORK_LABEL (v2.5)** 산출물·대화 = 인간 언어. 작업 라벨 ZERO. (1만 페이지 1단어 = FAIL) 적발 → 전수 재작성. 부분치환 ✗ | 사용자 혼란·내부어 누출 |
+| 13 | **작업라벨 본질보호 (v2.5)** 산출물·대화 = 인간 언어. 작업 라벨 ZERO. (1만 페이지 1단어 = FAIL) 적발 → 전수 재작성. 부분치환 금지 | 사용자 혼란·내부어 누출 |
+| 14 | **HERO 형식 (v2.6)** 모든 본문 섹션 첫 줄 = 압축 한 문장. HERO만 읽으면 분석→핵심→아이템 서사. 한 섹션이라도 누락 = FAIL | 방향성 파악 불가 |
+| 15 | **어조 룰 (v2.6)** 인물 호칭·버전 라벨·장사 어휘·작업 라벨 금지. 업계 표준 약자(BEP·KPI·MECE·MVP)는 한 번 정의 후 통과 | 내부어·장사 톤 누출 |
 
-> **INV 13 — NO_WORK_LABEL 5줄 (본질)**
+> **INV 13 — 작업라벨 5줄 (본질)**
 >
 > - **RULE**: 산출물·대화 = 인간 언어. 작업 라벨 ZERO. (1만 페이지 1단어 = FAIL)
 > - **판정**: "이 단어, 이 대화 밖 사람이 사전 없이 읽을 수 있나?" NO → 작업 라벨 → 금지
@@ -45,6 +49,21 @@ vault_dependency: SOFT
 > - **SELF_CHECK**: 산출 직전 자체 스캔. 1개라도 발견 = 차단·재작성
 >
 > 사전·예시·자주새는 단어·변환사례 = `references/no-work-label.md` (보조)
+
+> **INV 14 — HERO 형식 4줄 (본질)**
+>
+> - **RULE**: 모든 본문 섹션 첫 줄 = 압축 한 문장 (HERO). HERO만 차례로 읽으면 분석→핵심→아이템 서사가 흐름
+> - **톤**: 담담. 선언적·멋짐 금지. 사실 진술 톤
+> - **분리**: HERO = 형식 / DOC_TYPE = 내용. 직교
+> - **자가검사**: 산출 직전 HERO 줄만 추출해 차례로 읽기. 서사 흐름 깨짐 → 재작성
+>
+> 서사 흐름·예시·담담 톤 대조표·결합 예 = `references/hero-format.md` (필독)
+
+> **INV 15 — 어조 룰 (본질)**
+>
+> 금지 어휘: 인물 호칭(피디님·박사·작곡가·형) · 버전 라벨(v3.2·SoT) · 작업 약자(LTV·NPS) · 장사 어휘(팔다·전환·만석) · 작업 라벨(앞단·뒷단·도달점·핑퐁)
+> 허용: 역할명·고유명사·업계 표준 약자(BEP·KPI·MECE·MVP, 한 번 정의 후) · 법조문
+> 사전·치환표 = `references/hero-format.md §6`
 
 ---
 
@@ -58,7 +77,7 @@ vault_dependency: SOFT
 | 500~2000자 | **MODE_M** | NYT 리드 + 압정 |
 | >2000자 | **MODE_L** | NYT 풀 |
 
-### A-2. DOC_TYPE (v2.3 신규) → `references/doc-types.md` 필독
+### A-2. DOC_TYPE (v2.3) → `references/doc-types.md` 필독
 
 | 종류 | 트리거 | 압정 | 핵심 의무 |
 |------|--------|------|----------|
@@ -81,13 +100,13 @@ vault_dependency: SOFT
 
 ## §B. NYT 구조
 
-### B-1. 4층 + 의사결정 1줄
+### B-1. 5층 + HERO
 
 - **Headline** = 결론 주장 1줄
-- **의사결정 1줄 (v2.3 신규)** Headline 직후 "이 문서가 바꾸는 의사결정 1줄" 의무. 미작성=FAIL
+- **의사결정 1줄 (v2.3)** Headline 직후 "이 문서가 바꾸는 의사결정 1줄" 의무
 - **Lead** 5W1H 또는 결론+근거+사례 (≤5문장)
 - **Nut graf** "왜 중요한가" (MODE_L)
-- **Body** 소제목·중요도 내림차순
+- **Body** 소제목 + **HERO 한 줄 (v2.6, INV 14)** + 본문. 중요도 내림차순
 
 ### B-2. 압정 비율 (DOC_TYPE 차등)
 
@@ -99,9 +118,13 @@ DELIVER 1:7:2 / DIAGNOSE 1:6:3 / EVALUATE 1:5:4 / CONVERGE 1:4:5
 
 | 압정 주장 | Body §X | 증거 위치 |
 
-압정에만 있고 Body에 증거 ✗ = FAIL.
+압정에만 있고 Body에 증거 누락 = FAIL.
 
-### B-4. 자르기
+### B-4. HERO 서사 흐름 (v2.6, INV 14)
+
+각 묶음(章·Part)에 분석→핵심→아이템 순. 마지막 묶음(합성·결론)은 분석 면제. 상세·예시 = `references/hero-format.md §3`.
+
+### B-5. 자르기
 
 뒤 30% 삭제 → 결론·근거 생존? YES=PASS
 
@@ -127,8 +150,8 @@ DELIVER 1:7:2 / DIAGNOSE 1:6:3 / EVALUATE 1:5:4 / CONVERGE 1:4:5
 | 2 | 모호동사 빈도 | "있다·것이다" >1/문단 |
 | 3 | 중복 금지 | 같은 정보 2회+ |
 | 4 | 구체사실 밀도 | 인용·수치·고유명사 <1/문단 |
-| 5 | **EVIDENCE_INJECTION (v2.3)** | 등급(강·중·약·★) 옆 근거 1줄 ✗ |
-| 6 | **NUMBER_PROVENANCE (v2.3)** | 수치 옆 (출처·가정·기준·비교) ✗ |
+| 5 | **EVIDENCE_INJECTION (v2.3)** | 등급(강·중·약·★) 옆 근거 1줄 누락 |
+| 6 | **NUMBER_PROVENANCE (v2.3)** | 수치 옆 (출처·가정·기준·비교) 누락 |
 
 1항 FAIL → §C 재실행. 루프 2회.
 
@@ -145,8 +168,8 @@ DELIVER 1:7:2 / DIAGNOSE 1:6:3 / EVALUATE 1:5:4 / CONVERGE 1:4:5
 
 ## §E. FORMAT + CEW + 반대주장
 
-### E-1. 강제: 불릿·번호·헤더·인용박스·표·수치(D-1)
-### E-2. 금지: 긴문장(25단어+)·수동태·모호동사·연결어 남발·설명형 서술
+### E-1. 강제: 불릿·번호·헤더·인용박스·표·수치(D-1) + 섹션마다 HERO 한 줄(B-1)
+### E-2. 금지: 긴문장(25단어+)·수동태·모호동사·연결어 남발·설명형 서술 + 인물호칭·버전라벨·장사어휘(INV 15)
 
 ### E-3. Claim-Evidence-Warrant (v2.3, INV 10)
 
@@ -156,7 +179,7 @@ DELIVER 1:7:2 / DIAGNOSE 1:6:3 / EVALUATE 1:5:4 / CONVERGE 1:4:5
 | **E 증거** | 1차 출처·수치·고유명사 | "두물머리·세미원·황순원 + KOSIS 2024 정원인구 13.5만" |
 | **W 정당화** | E가 C 지지 사유 | "3대축이 단일 정체성 → Glyndebourne·Wonderfruit 정합" |
 
-C+E+W 셋 다 ✗ = FAIL. **불릿 압축형 OK:** `[C]: [E] → [W]` 한 줄.
+C+E+W 셋 다 누락 = FAIL. **불릿 압축형 통과:** `[C]: [E] → [W]` 한 줄.
 
 ### E-4. 반대주장 박스 (v2.3, INV 12)
 
@@ -197,28 +220,34 @@ MODE_M·L Body당 1+ 의무:
 
 ```
 ① PREFLIGHT(수신자·목적·DOC_TYPE) → ② §A 길이+DOC_TYPE → ②-b §A-3 RENDER
-→ ③ §B 작성(Headline+의사결정1줄+Lead+Body+Pin↔Body)
+→ ③ §B 작성(Headline+의사결정1줄+Lead+Body[섹션마다 HERO]+Pin↔Body)
 → ④ §C 3패스 → ⑤ §D 6항 QC(v2.3 EVIDENCE+NUMBER 포함)
 → ⑥ §E FORMAT+CEW+반대주장 → ⑦ design-skill cascade MUST
 → ⑧ [HTML] qc-mobile.sh → ⑨ [MD] div 위반 검사
 → ⑩ Pin↔Body 매핑 검증(INV 11)
-→ ⑩-b §I NO_WORK_LABEL 자체 스캔 (INV 13) — LLM 판정질문 + 사전 보조. 적발 1+ → 전수재작성 → ⑩-b 재실행. 2회차 적발 → STOP+보고
+→ ⑩-b §I 작업라벨 자체 스캔 (INV 13)·HERO 서사 흐름 검증 (INV 14)·어조 룰 스캔 (INV 15) — LLM 판정질문 + 사전 보조. 적발 1+ → 전수재작성 → ⑩-b 재실행. 2회차 적발 → STOP+보고
 → ⑪ 산출
 ```
 
 ---
 
-## §I. NO_WORK_LABEL 스캔 (INV 13)
+## §I. 자체 스캔 (INV 13·14·15)
 
-본질 5줄 = INV 13 행 직접 참조. 본문 중복 ✗.
+본질 규정 = INV 13·14·15 직접 참조. 본문 중복 금지.
 
-1차 = LLM 자체 판정질문. 2차 = `python scripts/validate.py --check-output FILE` (보조). 적발 1+ → 전수재작성 → 재스캔. 2회차 적발 → STOP. 부분치환 ✗. 상세·치환표·예시: `references/no-work-label.md`.
+| INV | 1차 검사 | 2차 검사 |
+|---|---|---|
+| 13 작업라벨 | LLM 판정질문 ("사전 없이 읽히나?") | `references/no-work-label.md` 사전 |
+| 14 HERO 서사 | HERO 줄만 추출 → 차례로 읽어 흐름 점검 | `references/hero-format.md §3` |
+| 15 어조 | 인물호칭·버전라벨·장사어휘·약자 카탈로그 대조 | `references/hero-format.md §6` |
+
+적발 1+ → 전수재작성 → 재스캔. 2회차 적발 → STOP. 부분치환 금지.
 
 ---
 
 ## §H. Self-Check
 
-`python scripts/validate.py .` errors=[], 루프 2회. `evals/cases.json` 3+. 스캐너는 자기참조 라인(INV 13·v2.5·no-work-label.md 마커) 제외.
+`python scripts/validate.py .` errors=[], 루프 2회. `evals/cases.json` 3+. 스캐너는 자기참조 라인(INV 13·14·15·v2.5·v2.6 마커) 제외.
 
 ---
 
@@ -242,21 +271,35 @@ MODE_M·L Body당 1+ 의무:
 | `.md` div | INV 8 |
 | design-skill 미호출 | INV 7 |
 | spoke cascade | research-frame 등 §4.5 강제 |
-| **작업 라벨 산출물 누출 (대화 밖 사람이 사전 없이 못 읽는 단어)** | **INV 13 NO_WORK_LABEL → 실명·평문 풀어쓰기로 전수재작성** |
+| **작업 라벨 산출물 누출 (대화 밖 사람이 사전 없이 못 읽는 단어)** | **INV 13 → 실명·평문 풀어쓰기로 전수재작성** |
 | **부분치환으로 라벨만 바꾸기** | **사고 자체가 라벨식. 전수재작성만 통과** |
 | **메타라벨 누출 (예: "v3.1 페이퍼엔진 통과 · 압정 1:4:5")** | **메타블록 자체 삭제. 사용자에게 의미 없음** |
-| **MECE·KPI·BEP·MVP를 라벨로 오판해 차단** | **§I ALLOW 화이트리스트 — 업계 전문용어는 통과** |
+| **HERO 한 줄 누락된 섹션** | **INV 14 → 모든 섹션 첫 줄 = 압축 한 문장** |
+| **HERO를 카피처럼 멋지게 작성** | **담담 룰. 선언·외침 금지** |
+| **HERO만 읽었을 때 서사 깨짐 (분석 없이 아이템부터)** | **묶음 첫 HERO에 분석·핵심 의무. `references/hero-format.md §3`** |
+| **인물 호칭(피디님·박사) 본문 누출** | **INV 15 → 역할명** |
+| **장사 어휘(팔다·전환·만석) 누출** | **INV 15 → 운영·합류·등록** |
+| **작업 약자(LTV·NPS) 풀어쓰기 누락** | **INV 15 → 풀어쓰기. BEP·KPI·MECE·MVP만 업계 표준 통과** |
 
 ---
 
-## 예시 (라벨 단어 0개 강제)
+## 예시 (HERO + 라벨 단어 0개 강제)
 
 요청: `"리서치 15편 종합해줘. 보고서로"`
 
-내부 라우팅(사용자 비공개): 길이 = 길음 → 종류 = 수렴형 · 결론 비율 낮음 · 본문 비중 높음 · 비교표 의무 · 결론↔본문 대응표 · 자기반박 박스 · 산출 직전 작업 라벨 스캔.
+내부 라우팅(사용자 비공개): 길이 = 길음 → 종류 = 수렴형 · 결론 비율 낮음 · 본문 비중 높음 · 비교표 의무 · 결론↔본문 대응표 · 자기반박 박스 · 산출 직전 작업라벨·HERO 서사·어조 룰 3중 스캔.
 
-산출물에 등장 가능한 단어: "한 줄 결론", "도입", "본문", "리서치 비교표", "합의·모순·빈자리", "반대 주장", "결론과 근거 연결", "마무리".
+산출물 본문 시작 예 (HERO 첫 줄 강조):
+```
+## 1. 다섯 영역에서 같은 결론이 다른 각도로 나타난다.
 
-산출물에 0개 강제: 종류 코드(전달형/수렴형 등 영문·한글 라벨 단어), 모드 코드, 결론 비율 표기, 사고도구 약어 — 모두 ✗.
+본문: 시장 규모(KOSIS 2024)·고객 행동(Nielsen 2024-Q3)·경쟁 구조(KISDI 2024)·...
 
-상세: `references/no-work-label.md` · `references/doc-types.md` · `references/cascade-protocol.md` · `CHANGELOG.md`
+## 2. 진짜 차별점은 결과물의 종류가 아니라 소유 구조다.
+
+본문: ...
+```
+
+산출물에 0개 강제: 종류 코드(전달형/수렴형 등 영문·한글 라벨 단어), 모드 코드, 결론 비율 표기, 사고도구 약어, 인물 호칭, 버전 라벨, 장사 어휘 — 모두 금지.
+
+상세: `references/hero-format.md` · `references/no-work-label.md` · `references/doc-types.md` · `references/cascade-protocol.md` · `CHANGELOG.md`
