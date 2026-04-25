@@ -20,6 +20,44 @@
       "expected": "20행 이하 내부 용도 → 패스스루 티어. 1블록1목적만 적용. spine·블록전환·밀도대비 면제. 시각소스 훅 미발동.",
       "axis": "tier-gate",
       "tier": "passthrough"
+    },
+    {
+      "id": "C4-doctype-converge-v23",
+      "input": "리서치 15편을 종합해줘. 보고서로.",
+      "expected": "DOC_TYPE = CONVERGE 자동 판정 (트리거 '종합·15편'). MODE_L 강제. 압정 1:4:5 적용. F-2 다소스 교차비교 매트릭스 (편·결론·합의·모순·빈자리) 의무. 단순 인덱스화(편→결론 1줄) = FAIL. 양평 종합 §G 15편 인덱스 안티패턴 차단.",
+      "axis": "doctype-converge",
+      "tier": "full"
+    },
+    {
+      "id": "C5-doctype-evaluate-v23",
+      "input": "3가지 옵션 비교해줘. 우열 매겨서.",
+      "expected": "DOC_TYPE = EVALUATE 자동 판정 (트리거 '비교·우열'). 압정 1:5:4. INV 10 EVIDENCE_INJECTION 발동 - 모든 등급(강·중·약·★) 옆 근거 1줄 컬럼 의무. 근거 셀 비면 = FAIL. 양평 §2 비교표 안티패턴 차단.",
+      "axis": "doctype-evaluate",
+      "tier": "full"
+    },
+    {
+      "id": "C6-cew-violation-negative-v23",
+      "input": "양평 종합분석 §A: '양평은 음악 빈자리 + 정체성 부재가 동시에 성립' (등급 표만, 근거 없음).",
+      "expected": "INV 10 위반 = FAIL. C(주장)는 있으나 E(증거 = 1차 출처/수치/고유명사) 부재 + W(왜 E가 C 지지) 부재. C+E+W 셋 다 있어야 PASS. 재작성 필요: 'C: 양평 음악 빈자리 + E: 양평군 KOSIS 2024 음악페스 0건 + 양강섬 국악 점유 + W: 빈자리지만 음악 단독 진입 시 정통성 부족, 양평DNA 결합만 가능'",
+      "axis": "claim-evidence-warrant",
+      "tier": "full",
+      "expected_result": "FAIL"
+    },
+    {
+      "id": "C7-pin-body-mapping-negative-v23",
+      "input": "양평 종합 §A '특이사항 7개' (압정에만 등장, Body §G~§O 어디서도 본문 증거 없음).",
+      "expected": "INV 11 위반 = FAIL. 압정 주장 7개 ↔ Body 섹션 7개 1:1 매핑 의무. 매핑표 미작성·압정 주장이 Body에서 증거와 함께 등장 ✗ = FAIL. 재작성 필요: 압정 7개 각각에 대응하는 Body §X에 1차 출처+수치+논증 배치.",
+      "axis": "pin-body-mapping",
+      "tier": "full",
+      "expected_result": "FAIL"
+    },
+    {
+      "id": "C8-counterargument-box-v23",
+      "input": "MODE_L 보고서 작성 시 Body 섹션 5개·반대주장 박스 0개.",
+      "expected": "INV 12 위반 = FAIL. MODE_M·L에서 Body 섹션당 반대주장 박스 1+ 의무. 반박 근거(E') + 현 결론 우위 사유(W') 형식. 단언만 = 선전문 = NYT 위반.",
+      "axis": "counterargument-box",
+      "tier": "full",
+      "expected_result": "FAIL"
     }
   ]
 }
