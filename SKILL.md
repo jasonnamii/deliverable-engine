@@ -1,8 +1,8 @@
 ---
 name: paper-engine
-version: 2.4.0
+version: 2.5.0
 description: |
-  paper-engine(페이퍼엔진) — NYT스타일 산출물 허브. 역피라미드·압정·3패스·4항QC. v2.3: DOC_TYPE 4분기(전달/진단/평가/수렴) + Claim-Evidence-Warrant + 반대주장 박스 + 수치맥락 + Pin↔Body 매핑 + 의사결정 매핑.
+  paper-engine(페이퍼엔진) — NYT스타일 산출물 허브. 역피라미드·압정·3패스·4항QC. v2.5: NO_WORK_LABEL 본질보호 게이트(산출물·대화 = 인간 언어, 작업 라벨 ZERO, 1만 페이지 1단어=FAIL, 판정질문 "사전 없이 읽히나?"). v2.3: DOC_TYPE 4분기(전달/진단/평가/수렴) + Claim-Evidence-Warrant + 반대주장 박스 + 수치맥락 + Pin↔Body 매핑 + 의사결정 매핑.
   P1: 산출물, 페이퍼엔진, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, 컨설팅보고서, 처방서, 평가보고서, 수렴리포트, 종합분석, 비교분석, 문서, 문서작성, 글쓰기, 작성, 글, 정리, 요약서, 요약문, 결과물, 아웃풋, 1pager, 문서화, 플레이북, 스크립트, 진단리포트, 처방전, 설계안, 분석결과, 협상전략서, 협상분석, 캠페인브리프, 미디어플랜, 복기리포트, 리뷰메모, 레드라인, 설득안, 검증보고서, 분석메모, RCA보고서, 리스크보고서, 대시보드, 리뷰보고서, 아젠다, 회의록, 액션아이템, 진단결과, 상담노트, 평가서, 비교표, PRD, 계획서, 내용정리, 글작성.
   P2: 써줘, 써, 적어줘, 편집해줘, 드래프트해줘, 뽑아줘, 통합해줘, 비교해줘, 평가해줘, 작성해줘, 만들어줘, 정리해줘, 생성해줘, 문서화해줘, 글써줘, write, draft, evaluate, converge, create, generate, produce.
   P5: md파일로, html파일로, 보고서로, 진단서로, 리포트로, 평가서로.
@@ -13,11 +13,12 @@ vault_dependency: SOFT
 # Paper Engine — NYT 스타일 산출물 허브
 
 산출물 품질 중앙 허브. 산문체 금지, NYT(역피라미드·압정) 강제. 불릿·헤더·수치·인용·단문 필수.
+**v2.5:** **NO_WORK_LABEL 본질보호 게이트** — 산출물·대화 = 인간 언어. 작업 라벨 ZERO. 1만 페이지 1단어 = FAIL.
 **v2.3:** DOC_TYPE 분기·CEW·반대주장·Pin↔Body 의무 추가.
 
 ---
 
-## ⛔ 절대 규칙 (12)
+## ⛔ 절대 규칙 (13)
 
 | # | 규칙 | 위반 |
 |---|------|------|
@@ -33,6 +34,17 @@ vault_dependency: SOFT
 | 10 | **Claim-Evidence-Warrant (v2.3)** 모든 주장=C+E+W. 1개라도 ✗=FAIL | 등급만 적층 |
 | 11 | **Pin↔Body 매핑 (v2.3)** 압정 N개 ↔ Body N개 1:1. 압정만=FAIL | 떠있는 결론 |
 | 12 | **반대주장 박스 (v2.3)** MODE_M·L Body당 1+ 의무 | 선전문화 |
+| 13 | **NO_WORK_LABEL (v2.5)** 산출물·대화 = 인간 언어. 작업 라벨 ZERO. (1만 페이지 1단어 = FAIL) 적발 → 전수 재작성. 부분치환 ✗ | 사용자 혼란·내부어 누출 |
+
+> **INV 13 — NO_WORK_LABEL 5줄 (본질)**
+>
+> - **RULE**: 산출물·대화 = 인간 언어. 작업 라벨 ZERO. (1만 페이지 1단어 = FAIL)
+> - **판정**: "이 단어, 이 대화 밖 사람이 사전 없이 읽을 수 있나?" NO → 작업 라벨 → 금지
+> - **ALLOW**: 업계 전문용어 (BEP·KPI·MECE·MVP 등) · 고유명사 · 법조문
+> - **CONVERT**: 라벨 발견 → 실명·평문 풀어쓰기 (예: Y2 → "2년차" / 4축 → 실제 4개 이름 / C:E:W: → 평문)
+> - **SELF_CHECK**: 산출 직전 자체 스캔. 1개라도 발견 = 차단·재작성
+>
+> 사전·예시·자주새는 단어·변환사례 = `references/no-work-label.md` (보조)
 
 ---
 
@@ -189,14 +201,24 @@ MODE_M·L Body당 1+ 의무:
 → ④ §C 3패스 → ⑤ §D 6항 QC(v2.3 EVIDENCE+NUMBER 포함)
 → ⑥ §E FORMAT+CEW+반대주장 → ⑦ design-skill cascade MUST
 → ⑧ [HTML] qc-mobile.sh → ⑨ [MD] div 위반 검사
-→ ⑩ Pin↔Body 매핑 검증(INV 11) → ⑪ 산출
+→ ⑩ Pin↔Body 매핑 검증(INV 11)
+→ ⑩-b §I NO_WORK_LABEL 자체 스캔 (INV 13) — LLM 판정질문 + 사전 보조. 적발 1+ → 전수재작성 → ⑩-b 재실행. 2회차 적발 → STOP+보고
+→ ⑪ 산출
 ```
+
+---
+
+## §I. NO_WORK_LABEL 스캔 (INV 13)
+
+본질 5줄 = INV 13 행 직접 참조. 본문 중복 ✗.
+
+1차 = LLM 자체 판정질문. 2차 = `python scripts/validate.py --check-output FILE` (보조). 적발 1+ → 전수재작성 → 재스캔. 2회차 적발 → STOP. 부분치환 ✗. 상세·치환표·예시: `references/no-work-label.md`.
 
 ---
 
 ## §H. Self-Check
 
-`python scripts/validate.py .` errors=[], 루프 2회. `evals/cases.json` 3+.
+`python scripts/validate.py .` errors=[], 루프 2회. `evals/cases.json` 3+. 스캐너는 자기참조 라인(INV 13·v2.5·no-work-label.md 마커) 제외.
 
 ---
 
@@ -220,11 +242,21 @@ MODE_M·L Body당 1+ 의무:
 | `.md` div | INV 8 |
 | design-skill 미호출 | INV 7 |
 | spoke cascade | research-frame 등 §4.5 강제 |
+| **작업 라벨 산출물 누출 (대화 밖 사람이 사전 없이 못 읽는 단어)** | **INV 13 NO_WORK_LABEL → 실명·평문 풀어쓰기로 전수재작성** |
+| **부분치환으로 라벨만 바꾸기** | **사고 자체가 라벨식. 전수재작성만 통과** |
+| **메타라벨 누출 (예: "v3.1 페이퍼엔진 통과 · 압정 1:4:5")** | **메타블록 자체 삭제. 사용자에게 의미 없음** |
+| **MECE·KPI·BEP·MVP를 라벨로 오판해 차단** | **§I ALLOW 화이트리스트 — 업계 전문용어는 통과** |
 
 ---
 
-## 예시
+## 예시 (라벨 단어 0개 강제)
 
-`"15편 리서치 종합해줘. 보고서로"` → DOC_TYPE=**CONVERGE** + MODE_L → 압정 1:4:5 → Headline + 의사결정1줄 + 교차비교매트릭스 + CEW 수렴논증 + 반대주장박스 + Pin↔Body → 3패스 → 6항 QC → design-skill → 산출.
+요청: `"리서치 15편 종합해줘. 보고서로"`
 
-상세: `references/doc-types.md` · `references/cascade-protocol.md` · `CHANGELOG.md`
+내부 라우팅(사용자 비공개): 길이 = 길음 → 종류 = 수렴형 · 결론 비율 낮음 · 본문 비중 높음 · 비교표 의무 · 결론↔본문 대응표 · 자기반박 박스 · 산출 직전 작업 라벨 스캔.
+
+산출물에 등장 가능한 단어: "한 줄 결론", "도입", "본문", "리서치 비교표", "합의·모순·빈자리", "반대 주장", "결론과 근거 연결", "마무리".
+
+산출물에 0개 강제: 종류 코드(전달형/수렴형 등 영문·한글 라벨 단어), 모드 코드, 결론 비율 표기, 사고도구 약어 — 모두 ✗.
+
+상세: `references/no-work-label.md` · `references/doc-types.md` · `references/cascade-protocol.md` · `CHANGELOG.md`
