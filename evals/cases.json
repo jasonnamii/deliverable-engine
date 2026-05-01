@@ -82,6 +82,20 @@
       "axis": "no-work-label-allow",
       "tier": "full",
       "expected_result": "PASS"
+    },
+    {
+      "id": "C-v3-humanize-gate",
+      "input": "뉴트로지나 캠페인 기획안 보고서로 만들어줘.",
+      "expected": "INV 16·17·18 자동 발동. (1) BAN_LEXICON grep — \"결론적으로·요약하면·근본적으로·구체적으로·한편·이에 따라·할 수 있다·라고 할 수 있\" 산출물 0회 강제. (2) STYLE_NORTH_STAR 10조 — 평균 문장 8~20자, 능동형, 시그니처 어휘 자연주입(직접·왜·어떻게). (3) ANTI_BLOAT 9패스 — 50%+ 감축. scripts/humanize_check.py 통과 status=PASS. 적발시 평문변환·전수재작성, 부분치환 ✗.",
+      "axis": "humanize-gate",
+      "tier": "full"
+    },
+    {
+      "id": "C-v31-pre-write-guard",
+      "input": "리서치 데이터 받아서 보고서 써줘 — 사전생성형으로.",
+      "expected": "INV 19 PRE_WRITE_GUARD 자동 발동. ③ §B-PRE 5종 룰 활성화 후 §B 작성: ① 단문 8~20자 (첫 단어부터) ② 시그니처 자연주입 (직접·왜·어떻게·정말·딱·근데) ③ BAN 사전회피 (결론적으로·근본적으로·한편 처음부터 안 고름) ④ 1문장 1명제 (접속절 다중 분리) ⑤ 문단 ≤80자. 메타룰 6 토큰 직전 자기검열: 형 코퍼스 1MB 등장 만한가? NO → 재생성. ④ §C 9패스는 마지막 안전망 (≤2패스 발동). 사전생성형 = 메커니즘 2번.",
+      "axis": "pre-write-guard",
+      "tier": "full"
     }
   ]
 }
