@@ -325,3 +325,45 @@ UP v39.6와 정합. UP §6 OUTPUT_COMPRESSION은 대화 출력 ≤33% 압축. pa
 
 ### 구간
 - v0.x — deliverable-engine 시절 (changelog 미기록 구간)
+
+---
+
+## v4.0.0 (2026-05-03) — 메이저 통폐합
+
+**기조:** skill-doctor v3.4 진단 R1·R2·R3 근본 해소. **추가 0 · 통폐합만**.
+
+### 통폐합 매핑
+- INV 25 → 18 (-28%):
+  - INV 13 (작업라벨) + INV 24 §1 (UP 작업프레임) → INV 13 통합
+  - INV 16 (BAN_LEXICON) + INV 24 §2 (UP AI어휘) + INV 25 어휘 → INV 16 통합
+  - INV 22 (입니다체) + INV 23 (관계격식) → INV 22 통합
+  - INV 24 = §3·§4 잔존 (UP 정본 핵심)
+  - INV 25 = KIWI 문법만 잔존
+- references 15 → 11 (-27%):
+  - 신설 3: lexicon-ban.md, formality-gate.md, kiwi-grammar.md
+  - _archive 5: banwords-lexicon.md, up-ban-dictionary.md, kiwi-writing-rules.md, imnida-gate.md, relation-formality.md
+- humanize_check.py 카테고리 16 → 8 (-50%):
+  - META+UP_LEX → AI_LEX
+  - FORMAL+KIWI_ADV → ADV_BAN
+  - LABEL+UP_FRAME → LABEL_BAN
+  - TRANS+KIWI_HANJA → TRANS_BAN
+  - FNOUN+KIWI_GEOT → FNOUN_BAN
+  - IDA / KIWI_HEDGE→HEDGE_BAN 유지
+  - CONJ+UP_RAT+KIWI_EMOTION → MISC_BAN
+- §B-PRE 11종 → 8종 (-27%)
+- 본질 6종 → 5종 (B5+B6 어휘 통합)
+
+### v4.0 헤리티지 박스 (SKILL.md에서 본 CHANGELOG로 이관)
+- v3.4.0 (2026-05-03): KIWI 글쓰기 5법칙 통합 (INV 25). 본질 5→6종·§B-PRE 8→11종·humanize_check KIWI 5카테고리.
+- v3.3.1 (2026-05-03): skill-doctor 처방 — 본질 5종 박스·banwords §7→§13 통폐합·cases INV 22·23·24 +3.
+- v3.3 (2026-05-03): 입니다체 100% + 관계격식 4LV + UP BAN 4섹션. INV 22·23·24 신규. §B-PRE 5→8종.
+- v3.2 (2026-05-01): PT_FORMAT_GUARD + 도구함 9종 자연주입.
+- v3.1: PRE_WRITE_GUARD 사전생성형.
+- v3.0: HUMANIZE_GATE 3중·BAN_LEXICON.
+- v2.6: HERO 형식 + 어조 룰.
+- v2.5: 작업라벨 본질보호.
+- v2.3: DOC_TYPE 4분기·CEW·반대주장.
+
+### 진단 점수 목표
+- v3.4: 74/100
+- v4.0 목표: 90+/100

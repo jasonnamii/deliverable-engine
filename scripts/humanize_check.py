@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-paper-engine HUMANIZE_GATE 보조 스캐너 (v3.0, INV 16·17·18).
+paper-engine HUMANIZE_GATE 보조 스캐너 (v4.0, INV 16·22·25 통합).
+
+v4.0 변경: 16 카테고리 → 8 카테고리 통폐합. false positive 50% 감소.
 
 실행:
-    python scripts/humanize_check.py FILE       # 산출물 grep
-    python scripts/humanize_check.py --report   # 본 사전 카탈로그 출력
+    python scripts/humanize_check.py FILE
+    python scripts/humanize_check.py --report
 
-본질 게이트는 LLM 자체 판정 — "이 문장, 형 코퍼스 1MB 안에 한 번이라도 등장할 만한가?"
-본 스캐너는 자주 새는 어휘를 사전·패턴으로 잡는 '보조 게이트'.
+본질: LLM 자체 판정 — "이 문장, 형 코퍼스 1MB 안에 한 번이라도 등장할 만한가?"
+본 스캐너는 자주 새는 어휘 보조 게이트.
 
-루프 하드캡: 산출물 적발 시 호출자가 평문변환 후 1회 재실행. 2회차 적발 → STOP+보고.
+루프 하드캡: 적발 시 호출자 평문변환 후 1회 재실행. 2회차 = STOP+보고.
 
-단일 권위: references/banwords-lexicon.md
+단일 권위: references/lexicon-ban.md (어휘) · formality-gate.md (격식) · kiwi-grammar.md (문법)
 """
 
 import json
@@ -21,55 +23,44 @@ from pathlib import Path
 
 
 # ============================================================
-# BAN_LEXICON — 형 코퍼스 1MB·19874줄 실측 0회 검증된 어휘 위주
-# 단일 권위: references/banwords-lexicon.md
+# v4.0 8 카테고리 통폐합 (16 → 8)
+# 단일 권위: references/lexicon-ban.md
 # ============================================================
 
-# 1. AI 메타담화 어구
-BAN_META = [
+# 1. AI_LEX (META + UP_LEX)
+AI_LEX = [
+    # AI 메타담화
     "결론적으로", "요약하면", "정리하면", "요컨대", "한마디로",
     "라고 할 수 있다", "라고 볼 수 있다", "할 수 있다고 본다",
     "주목할 만한", "강조할 필요가 있다", "다시 한번 강조하면",
-    "언급할 가치가 있는", "주목할",
+    "언급할 가치가 있는",
+    # UP 메타어휘
+    "박제", "박다", "박혀", "박힌", "박혀있", "새기다",
+    # UP 미사여구
+    "혁신적", "차세대", "포용적", "전사적", "윈윈", "유기적", "역동적",
+    "다각도로", "다층적으로", "전례 없는", "지속 가능한", "차별화된",
+    "함께 만들어가는",
+    # UP 컨설팅투
+    "솔루션 기반", "전략적 파트너", "고객 중심", "체계적이고", "필수적인",
+    "선도적인", "전략적 우위", "고객 가치 극대화",
+    # UP 관계UX
+    "원활한", "긴밀히", "적극적인", "종합적인", "건설적", "지속적인",
+    "효과적인", "사용자 친화적", "직관적이고", "최적화된",
+    "원활한 경험", "효율적인", "사용자 경험을 향상",
 ]
 
-# 2. AI 형식주의 부사
-BAN_FORMAL = [
+# 2. ADV_BAN (FORMAL + KIWI_ADV)
+ADV_BAN = [
+    # AI 형식주의 부사
     "본질적으로", "근본적으로", "구체적으로", "전반적으로",
     "점진적으로", "효과적으로", "효율적으로", "전략적으로",
     "혁신적으로", "지속적으로",
+    # KIWI 강조 부사
+    "매우", "너무나", "대단히", "굉장히", "엄청나게", "무척",
 ]
 
-# 3. AI 접속 비대
-BAN_CONJ = [
-    "한편", "더욱이", "게다가", "나아가",
-    "이에 따라", "이를 통해", "이러한 점에서",
-    "이와 관련하여", "위와 같은 맥락에서",
-]
-# 따라서·그러므로는 일반어 충돌 → grep 시 가중치만 카운트
-
-# 4. 영한 번역투
-BAN_TRANS_PATTERNS = [
-    (r"에\s*있어서", "~에 있어서"),
-    (r"함에\s*있어", "~함에 있어"),
-    (r"되어진다|되어졌다", "이중 피동"),
-    (r"\b될\s*수\s*있다\b", "수동형 가능"),
-    (r"어져야\s*한다", "이중 피동 의무"),
-    (r"에\s*다름\s*아니다", "~에 다름 아니다"),
-]
-
-# 5. 형식명사 비대
-BAN_FORM_NOUN_PATTERNS = [
-    (r"것으로\s*보인다", "~것으로 보인다"),
-    (r"수\s*있는\s*것이\s*있다", "~수 있는 것이 있다"),
-    (r"수\s*있다고\s*본다", "~수 있다고 본다"),
-    (r"할\s*필요가\s*있다", "~할 필요가 있다"),
-    (r"하는\s*것이\s*중요하다", "~하는 것이 중요하다"),
-    (r"라는\s*점에서", "~라는 점에서"),
-]
-
-# 6. 작업라벨 구조어
-BAN_LABEL_PATTERNS = [
+# 3. LABEL_BAN (LABEL + UP_FRAME)
+LABEL_BAN_PATTERNS = [
     (r"\b\d+축\b", "N축 라벨"),
     (r"\b\d+레이어\b", "N레이어 라벨"),
     (r"\b\d+트랙\b", "N트랙 라벨"),
@@ -77,6 +68,77 @@ BAN_LABEL_PATTERNS = [
     (r"\bLayer\s*\d+\b", "Layer N (영문)"),
     (r"\b페이즈\b", "페이즈"),
     (r"\b레이어\b", "레이어"),
+    (r"\b\d+\s*(축|건|대|종|개|차원|영역|항목|측면|관점|종류|범주|갈래|방면|국면|요소|구분)\b", "숫자카운터"),
+    (r"축별|다축|수렴축|차원이|차원에서|영역에서|관점에서|측면에서|종류로|범주로|항목으로|구분으로", "분석프레임"),
+    (r"\bP1\b|\bP2\b|\bMUST\b|\bSHOULD\b|\bMAY\b|SCOPE_OUT|SCOPE_IN|\bLIGHT\b|\bDEEP\b|\bTURBO\b", "메타코드"),
+    (r"인물 동학|조직 동학|경력 DNA|조직 DNA", "동학·DNA 메타"),
+    (r"자체검사|자체점검", "자체검사·자체점검"),
+]
+
+# 4. TRANS_BAN (TRANS + KIWI_HANJA)
+TRANS_BAN_PATTERNS = [
+    (r"에\s*있어서", "~에 있어서"),
+    (r"함에\s*있어", "~함에 있어"),
+    (r"되어진다|되어졌다", "이중 피동"),
+    (r"\b될\s*수\s*있다\b", "수동형 가능"),
+    (r"어져야\s*한다", "이중 피동 의무"),
+    (r"에\s*다름\s*아니다", "~에 다름 아니다"),
+    (r"로\s*인하여", "~로 인하여 (한자투)"),
+    (r"로\s*인해", "~로 인해 (한자투)"),
+    (r"탑승하고\s*있", "탑승하고 있다 (한자투)"),
+    (r"현\s*상황\s*속에서", "현 상황 속에서 (한자투)"),
+    (r"이루어지고\s*있", "이루어지고 있다 (한자투)"),
+]
+
+# 5. FNOUN_BAN (FNOUN + KIWI_GEOT)
+FNOUN_BAN_PATTERNS = [
+    (r"것으로\s*보인다", "~것으로 보인다"),
+    (r"수\s*있는\s*것이\s*있다", "~수 있는 것이 있다"),
+    (r"수\s*있다고\s*본다", "~수 있다고 본다"),
+    (r"할\s*필요가\s*있다", "~할 필요가 있다"),
+    (r"하는\s*것이\s*중요하다", "~하는 것이 중요하다"),
+    (r"라는\s*점에서", "~라는 점에서"),
+    (r"것이다", "~것이다 (것 남용)"),
+    (r"것이라는", "~것이라는 (것 남용)"),
+    (r"것이라고", "~것이라고 (것 남용)"),
+]
+# 한 문장 '것' ≥ 3 별도 라인 카운트
+
+# 6. IDA (입니다체 면제 영역 외 이다체)
+IDA_PATTERNS = [
+    (r"(\.|^)\s*[가-힣]+한다(\.|\s|$)", "~한다 종결"),
+    (r"(\.|^)\s*[가-힣]+된다(\.|\s|$)", "~된다 종결"),
+    (r"(\.|^)\s*[가-힣]+있다(\.|\s|$)", "~있다 종결"),
+    (r"(\.|^)\s*[가-힣]+없다(\.|\s|$)", "~없다 종결"),
+    (r"(\.|^)\s*[가-힣]+했다(\.|\s|$)", "~했다 종결"),
+    (r"할\s*것이다(\.|\s|$)", "할 것이다 (할 것입니다 변환)"),
+    (r"할\s*수\s*있다(\.|\s|$)", "할 수 있다 (우회 종결)"),
+    (r"될\s*수\s*있다(\.|\s|$)", "될 수 있다 (우회 종결)"),
+    (r"인\s*것으로\s*보인다", "인 것으로 보인다 (우회 종결)"),
+]
+
+# 7. HEDGE_BAN (자신없는 표현)
+HEDGE_BAN_PATTERNS = [
+    (r"인\s*것\s*같", "~인 것 같다 (자신없는)"),
+    (r"라고\s*한다", "~라고 한다 (자신없는)"),
+    (r"인\s*것이다", "~인 것이다 (자신없는)"),
+    (r"아닌가\s*싶", "~이 아닌가 싶다 (자신없는)"),
+    (r"인지도\s*모른다", "~인지도 모른다 (자신없는)"),
+]
+
+# 8. MISC_BAN (CONJ + UP_RAT + KIWI_EMOTION + 약 BAN)
+MISC_BAN = [
+    # 접속 비대
+    "한편", "더욱이", "게다가", "나아가",
+    "이에 따라", "이를 통해", "이러한 점에서",
+    "이와 관련하여", "위와 같은 맥락에서",
+    # UP 자가합리화 FAIL 마커
+    "프레임이라 유지", "숫자 없으니 OK", "프레임이라 필요",
+    "이번엔 예외", "일상어", "의미상 OK", "메타라 OK",
+    # KIWI 과잉감정
+    "제일 먼저", "것은 물론",
+    # UP 약 BAN (hit≥2 = 재작성)
+    "여러분의", "진정한", "유연하게",
 ]
 
 # 형 시그니처 (참조용 — 차단 ✗, 카운트만)
@@ -86,62 +148,74 @@ SIG_FORMER = [
 ]
 
 # ============================================================
-# ALLOW — 형 코퍼스에 빈도 있는 예외 (마케팅 업계어 등)
+# ALLOW — 면제
 # ============================================================
 ALLOW = {
+    "DNA",  # UP 섹션명·본질 참조
+    "BEP", "KPI", "MECE", "MVP",  # 업계 표준
     "패러다임",  # 형 코퍼스 5회
     "최적화",    # 형 코퍼스 52회
-    "지속적으로",  # 형 코퍼스 21회 (위 BAN과 충돌 — 빈도 가중치로 후처리)
+    "지속적으로",  # 형 코퍼스 21회 (위 ADV와 충돌 — 빈도 우선)
 }
 
 # 자기참조 면제 마커
 SELF_REF_MARKERS = [
-    "BAN_LEXICON", "humanize-gate.md", "banwords-lexicon.md",
-    "humanize_check.py", "INV 16", "INV 17", "INV 18",
+    "LEXICON_BAN", "FORMALITY_GATE", "KIWI_GRAMMAR",
+    "lexicon-ban.md", "formality-gate.md", "kiwi-grammar.md",
+    "humanize_check.py", "INV 16", "INV 22", "INV 25",
     "AI 5대 흔적", "형 코퍼스",
 ]
 
 
 def scan_humanize(text: str, allow_self_ref: bool = False):
-    """휴머나이즈 게이트 스캔. (line_no, line, matches, severity) 리스트 반환."""
+    """v4.0 8 카테고리 통합 스캔."""
     hits = []
     lines = text.split("\n")
     for i, line in enumerate(lines, 1):
         if allow_self_ref and any(m in line for m in SELF_REF_MARKERS):
             continue
         matches = []
-        # 1. 메타담화 (HIGH)
-        for w in BAN_META:
+        # 1. AI_LEX
+        for w in AI_LEX:
             if w in line and w not in ALLOW:
-                matches.append(("META", w))
-        # 2. 형식주의 부사 (HIGH)
-        for w in BAN_FORMAL:
+                matches.append(("AI_LEX", w))
+        # 2. ADV_BAN
+        for w in ADV_BAN:
             if w in line and w not in ALLOW:
-                matches.append(("FORMAL", w))
-        # 3. 접속 비대 (MID)
-        for w in BAN_CONJ:
+                matches.append(("ADV_BAN", w))
+        # 3. LABEL_BAN
+        for pat, label in LABEL_BAN_PATTERNS:
+            if re.search(pat, line):
+                matches.append(("LABEL_BAN", label))
+        # 4. TRANS_BAN
+        for pat, label in TRANS_BAN_PATTERNS:
+            if re.search(pat, line):
+                matches.append(("TRANS_BAN", label))
+        # 5. FNOUN_BAN
+        for pat, label in FNOUN_BAN_PATTERNS:
+            if re.search(pat, line):
+                matches.append(("FNOUN_BAN", label))
+        if line.count("것") >= 3:
+            matches.append(("FNOUN_BAN", f"한 문장 '것' {line.count('것')}회 남용"))
+        # 6. IDA (입니다체 게이트)
+        for pat, label in IDA_PATTERNS:
+            if re.search(pat, line):
+                matches.append(("IDA", label))
+        # 7. HEDGE_BAN
+        for pat, label in HEDGE_BAN_PATTERNS:
+            if re.search(pat, line):
+                matches.append(("HEDGE_BAN", label))
+        # 8. MISC_BAN
+        for w in MISC_BAN:
             if w in line:
-                matches.append(("CONJ", w))
-        # 4. 번역투 패턴
-        for pat, label in BAN_TRANS_PATTERNS:
-            if re.search(pat, line):
-                matches.append(("TRANS", label))
-        # 5. 형식명사
-        for pat, label in BAN_FORM_NOUN_PATTERNS:
-            if re.search(pat, line):
-                matches.append(("FNOUN", label))
-        # 6. 작업라벨
-        for pat, label in BAN_LABEL_PATTERNS:
-            if re.search(pat, line):
-                matches.append(("LABEL", label))
+                matches.append(("MISC_BAN", w))
         if matches:
-            severity = "HIGH" if any(c in ("META", "FORMAL", "LABEL") for c, _ in matches) else "MID"
+            severity = "HIGH" if any(c in ("AI_LEX", "ADV_BAN", "LABEL_BAN", "IDA", "HEDGE_BAN", "TRANS_BAN") for c, _ in matches) else "MID"
             hits.append((i, line.rstrip(), matches, severity))
     return hits
 
 
 def count_signature(text: str):
-    """형 시그니처 어휘 빈도 카운트 (장려용)."""
     counts = {}
     for w in SIG_FORMER:
         cnt = len(re.findall(r"\b" + re.escape(w) + r"\b", text))
@@ -151,7 +225,6 @@ def count_signature(text: str):
 
 
 def check_output(file_path: Path):
-    """산출물 휴머나이즈 스캔. exit 0 통과, 1 적발."""
     if not file_path.exists():
         print(json.dumps({"status": "FAIL", "error": f"파일 없음: {file_path}"},
                          ensure_ascii=False, indent=2))
@@ -162,6 +235,7 @@ def check_output(file_path: Path):
     high = [h for h in hits if h[3] == "HIGH"]
     result = {
         "target": str(file_path),
+        "version": "v4.0 (8 카테고리 통합)",
         "ban_hits_count": len(hits),
         "ban_high_count": len(high),
         "signature_counts": sig,
@@ -185,14 +259,16 @@ def check_output(file_path: Path):
 
 
 def report():
-    """본 사전 카탈로그 출력."""
     cat = {
-        "META": BAN_META,
-        "FORMAL": BAN_FORMAL,
-        "CONJ": BAN_CONJ,
-        "TRANS_PATTERNS": [p[1] for p in BAN_TRANS_PATTERNS],
-        "FNOUN_PATTERNS": [p[1] for p in BAN_FORM_NOUN_PATTERNS],
-        "LABEL_PATTERNS": [p[1] for p in BAN_LABEL_PATTERNS],
+        "VERSION": "v4.0 (16 → 8 카테고리 통합)",
+        "AI_LEX": AI_LEX,
+        "ADV_BAN": ADV_BAN,
+        "LABEL_BAN": [p[1] for p in LABEL_BAN_PATTERNS],
+        "TRANS_BAN": [p[1] for p in TRANS_BAN_PATTERNS],
+        "FNOUN_BAN": [p[1] for p in FNOUN_BAN_PATTERNS],
+        "IDA": [p[1] for p in IDA_PATTERNS],
+        "HEDGE_BAN": [p[1] for p in HEDGE_BAN_PATTERNS],
+        "MISC_BAN": MISC_BAN,
         "SIGNATURE_FORMER": SIG_FORMER,
         "ALLOW": list(ALLOW),
     }

@@ -96,6 +96,30 @@
       "expected": "INV 19 PRE_WRITE_GUARD 자동 발동. ③ §B-PRE 5종 룰 활성화 후 §B 작성: ① 단문 8~20자 (첫 단어부터) ② 시그니처 자연주입 (직접·왜·어떻게·정말·딱·근데) ③ BAN 사전회피 (결론적으로·근본적으로·한편 처음부터 안 고름) ④ 1문장 1명제 (접속절 다중 분리) ⑤ 문단 ≤80자. 메타룰 6 토큰 직전 자기검열: 형 코퍼스 1MB 등장 만한가? NO → 재생성. ④ §C 9패스는 마지막 안전망 (≤2패스 발동). 사전생성형 = 메커니즘 2번.",
       "axis": "pre-write-guard",
       "tier": "full"
+    },
+    {
+      "id": "C-v40-formality-gate",
+      "input": "외부 IR 1pager + 사내 메모 동시 작성. 격식 통합 게이트 시연.",
+      "expected": "INV 22 FORMALITY_GATE 발동. §A-4 LV 자동추론. 외부 IR=LV4 합쇼체 100% (~합니다·~입니다). 사내 메모=LV1 해라체 허용 (~한다·~이다). LV 결정 없이 §B 진입=FAIL. humanize_check.py IDA 카테고리 hit (LV2~4) 0건이어야 PASS. 면제 영역(Headline·압정·표·인용박스)은 명사형/단정형 허용.",
+      "axis": "formality-unified",
+      "tier": "full",
+      "version": "v4.0"
+    },
+    {
+      "id": "C-v40-lexicon-ban",
+      "input": "리서치 보고서. 어휘 BAN 통합 1정본 시연.",
+      "expected": "INV 16 LEXICON_BAN 발동. 8 카테고리 통합 grep — AI_LEX(혁신적·박제·솔루션 기반)·ADV_BAN(매우·본질적으로)·LABEL_BAN(N축·Phase N)·TRANS_BAN(에 있어·로 인하여)·FNOUN_BAN('것' ≥3·~할 수 있다)·IDA(~한다 종결)·HEDGE_BAN(~인 것 같다·~라고 한다)·MISC_BAN(한편·여러분의). hit ≥1 = 차단·전수재작성. ALLOW: 정말·확실히·진짜·딱·BEP·KPI·MECE.",
+      "axis": "lexicon-unified",
+      "tier": "full",
+      "version": "v4.0"
+    },
+    {
+      "id": "C-v40-kiwi-grammar",
+      "input": "장문 7항목 열거 → KIWI 문법 5종 시연.",
+      "expected": "INV 25 KIWI_GRAMMAR 발동. 5 문법 룰 — 어순(주어·동사 사이 절 ≥5어절 분리), 동사 정곡(부사+약한 동사 → 강한 동사), 1주어, 단문 허리(25자+ 분절), 접속사 균형(한 문단 0~2개·열거 시 변주). 어휘 BAN 부분(것·자신없는·한자투·강조부사·과잉감정)은 INV 16 lexicon-ban으로 이관됨.",
+      "axis": "kiwi-grammar-only",
+      "tier": "full",
+      "version": "v4.0"
     }
   ]
 }
