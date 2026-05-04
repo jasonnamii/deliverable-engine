@@ -70,7 +70,9 @@ vault_dependency: SOFT
 
 ### A-1·A-2·A-3 라우팅
 - **길이:** ≤500자 MODE_S / 500~2000자 MODE_M / >2000자 MODE_L
+
 - **DOC_TYPE:** DELIVER(보고·디폴트) / DIAGNOSE(진단) / EVALUATE(비교) / CONVERGE(통합). 우선: CONVERGE>EVALUATE>DIAGNOSE>DELIVER. = `doc-types.md`
+- **PERSONA (v4.2):** DOC_TYPE → 명저자 페르소나 자동 라우팅 (DELIVER=강원국·DIAGNOSE/EVALUATE=이오덕·CONVERGE=유시민·HERO=김훈). = `_common/persona-corpus.md §2`. 격식 LV (INV 22) 우선·페르소나는 어휘·동사·자갈제거에만 한정
 - **RENDER:** `.md`→순수MD · `.md`+HTML/박스/벤토→html-div-style · `.html`→C9
 
 ### A-4. RELATION (INV 22) — 관계격식 자동추론
@@ -93,14 +95,15 @@ vault_dependency: SOFT
 
 ### §B-PRE. 사전 작성 가드 (v4.0, 8종)
 
-8종 룰 + 메타 자기검열 4문: ①단문 8~20자 ②시그니처 자연주입 ③BAN 사전회피(`lexicon-ban.md`) ④1문장 1명제 ⑤문단 ≤80자 ⑥격식 LV·종결 사전결정(`formality-gate.md`) ⑦작업라벨/프레임 사전회피(`lexicon-ban.md §2-3`) ⑧KIWI 문법(`kiwi-grammar.md`).
+8종 룰 + 메타 자기검열 4문: ①단문 8~20자 ②시그니처 자연주입(형+장르 페르소나·`_common/persona-corpus.md §4`) ③BAN 사전회피(`lexicon-ban.md`) ④1문장 1명제 ⑤문단 ≤80자 ⑥격식 LV·종결 사전결정(`formality-gate.md`) ⑦작업라벨/프레임 사전회피(`lexicon-ban.md §2-3`) ⑧KIWI 문법(`kiwi-grammar.md`).
 
 메타 4문: "형 코퍼스 등장? 격식 LV·종결 맞나? 어휘 BAN hit? KIWI 문법 위반?" 1개라도 NO → 재생성.
 
 상세 = `references/pre-write-guard.md`
 
 **📚 References (v4.0 11개):**
-- 정본 3종 (v4.0 신설): `lexicon-ban.md`(어휘) · `formality-gate.md`(격식) · `kiwi-grammar.md`(KIWI 문법)
+- 정본 3종 (v4.0): `lexicon-ban.md`(어휘) · `formality-gate.md`(격식) · `kiwi-grammar.md`(KIWI 문법)
+- 페르소나 1종 (v4.2 신설): `_common/persona-corpus.md` (장르×명저자 매핑·4명저자 시그니처·충돌해소·사람어휘풀)
 - 휴머나이즈: `humanize-gate.md` · `pre-write-guard.md` · `hero-format.md` · `no-work-label.md`
 - 분기·도구: `doc-types.md` · `cascade-protocol.md` · `jason-pt-toolkit.md`
 - 형 코퍼스: `jason-corpus-examples.md`
