@@ -1,8 +1,8 @@
 ---
-name: paper-engine
+name: shaper-skill
 version: 4.0.0
 description: |
-  paper-engine — NYT 산출물 허브. v4.0 메이저 통폐합: INV 25→18·refs 15→11·스캐너 카테고리 16→8. 어휘 BAN 1정본(lexicon-ban)·격식 1정본(formality-gate)·KIWI 문법 1정본(kiwi-grammar). 본질 5종·§B-PRE 8종. 헤리티지 → CHANGELOG. skill-doctor 진단 점수 74→90+ 목표.
+  shaper-skill — NYT 산출물 허브. v4.0 메이저 통폐합: INV 25→18·refs 15→11·스캐너 카테고리 16→8. 어휘 BAN 1정본(lexicon-ban)·격식 1정본(formality-gate)·KIWI 문법 1정본(kiwi-grammar). 본질 5종·§B-PRE 8종. 헤리티지 → CHANGELOG. skill-doctor 진단 점수 74→90+ 목표.
   P1: 산출물, 페이퍼엔진, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, 비교분석, 글쓰기, 1pager, 플레이북, PRD, HERO, 히어로, 휴머나이즈, AI문서티, 번역투, 장황, 압축, 사전가드, 작성가드, PT산출물, PT패턴, PT모드, PT_DOC, 형스타일, 입니다체, 합쇼체, 비즈니스격식, 관계격식, 수신자격식, 외부발신, 정중체, 격식체, UPBAN, 자가합리화차단, KIWI, 글쓰기법칙, 한국글쓰기, 단문쓰기, 한자투, 자신없는표현, 것남용, 부사자제, 동사정곡, Syntax어순.
   P2: 써줘, 적어줘, 작성해줘, 만들어줘, 정리해줘, write, draft, create.
   P3: NYT inverted pyramid, claim-evidence-warrant, document type router, hero format, humanize gate, anti-bloat, ban lexicon, pre-write guard, formality gate, KIWI rules.
@@ -11,7 +11,7 @@ description: |
 vault_dependency: SOFT
 ---
 
-# Paper Engine — NYT 스타일 산출물 허브 v4.0
+# Shaper Skill — 쉐이퍼 스킬
 
 산출물 품질 중앙 허브. 산문체 금지, NYT(역피라미드·압정) 강제. 불릿·헤더·수치·인용·단문 필수.
 
@@ -102,7 +102,7 @@ vault_dependency: SOFT
 - 휴머나이즈: `humanize-gate.md` · `pre-write-guard.md` · `hero-format.md` · `no-work-label.md`
 - 분기·도구: `doc-types.md` · `cascade-protocol.md` · `jason-pt-toolkit.md`
 - 형 코퍼스: `jason-corpus-examples.md`
-- 1차 출처: `VAULT/_skills research/paper-engine/2026-05-03_R1~R7.md` + `2026-05-03_v4-CONSOLIDATION-DESIGN.md`
+- 1차 출처: `VAULT/_skills research/shaper-skill/2026-05-03_R1~R7.md` + `2026-05-03_v4-CONSOLIDATION-DESIGN.md`
 - 헤리티지 보존: `references/_archive/` (banwords·up-ban·kiwi-writing·imnida·relation 5종)
 
 **📐 PT (v3.2, INV 21):** placeholder ✗ + 불릿위주 ✗ + 도구함 9종 자연주입 = `references/jason-pt-toolkit.md`

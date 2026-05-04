@@ -1,8 +1,8 @@
 # KIWI_WRITING_RULES — 한국 글쓰기 5법칙 (v3.4 신규, INV 25)
 
-KIWI Company 글쓰기 법칙 PDF 6페이지·5법칙·40+ 룰 통합. 한국 명문 산문 전통 + 형 코퍼스 정합. paper-engine v3.4 INV 25 단일 권위.
+KIWI Company 글쓰기 법칙 PDF 6페이지·5법칙·40+ 룰 통합. 한국 명문 산문 전통 + 형 코퍼스 정합. shaper-skill v3.4 INV 25 단일 권위.
 
-VAULT 1차 출처: `_skills research/paper-engine/2026-05-03_R7_KIWI-writing-rules.md`
+VAULT 1차 출처: `_skills research/shaper-skill/2026-05-03_R7_KIWI-writing-rules.md`
 
 ---
 
@@ -138,7 +138,7 @@ VAULT 1차 출처: `_skills research/paper-engine/2026-05-03_R7_KIWI-writing-rul
 
 ---
 
-## 6. paper-engine 기존 INV와 매핑
+## 6. shaper-skill 기존 INV와 매핑
 
 | KIWI 항 | 매핑 INV |
 |---|---|

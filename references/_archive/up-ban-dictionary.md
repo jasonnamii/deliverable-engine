@@ -1,6 +1,6 @@
 # UP_BAN_DICTIONARY — 형 UP 정본 verbatim (v3.3 신규, INV 24)
 
-형 UP v122.1 BAN DICTIONARY 4섹션 verbatim 박제. paper-engine 산출물·6줄+ 본문·CDB 송출 직전 매 응답 self-check 1차 권위.
+형 UP v122.1 BAN DICTIONARY 4섹션 verbatim 박제. shaper-skill 산출물·6줄+ 본문·CDB 송출 직전 매 응답 self-check 1차 권위.
 
 본 문서는 SKILL.md INV 24의 단일 권위. 변형·요약·재배치 금지.
 
@@ -108,7 +108,7 @@
 
 ---
 
-## 통합 적용 (paper-engine v3.3)
+## 통합 적용 (shaper-skill v3.3)
 
 ### INV 24 = UP_BAN_DICTIONARY
 - **발동:** 산출물 (.md/.html/.docx/.pptx/.pdf) + 6줄+ 본문 + CDB

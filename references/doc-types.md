@@ -126,4 +126,4 @@
 
 - **양평 종합·수렴 같은 산출물 차단:** "압정만 적층·근거 없는 등급·다소스 인덱스화" 모두 v2.3 EVALUATE/CONVERGE에서 FAIL
 - **압정 비율 차등:** 사고형 산출물(EVALUATE·CONVERGE)은 본문 비중 ↑ — 평가·논증·교차비교 들어갈 자리 확보
-- **paper-engine 단독 호출 시 종류 미명시면 DELIVER 디폴트** (기존 호환). 명시적으로 "비교해줘·통합해줘" 트리거 시 EVALUATE/CONVERGE
+- **shaper-skill 단독 호출 시 종류 미명시면 DELIVER 디폴트** (기존 호환). 명시적으로 "비교해줘·통합해줘" 트리거 시 EVALUATE/CONVERGE

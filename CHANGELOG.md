@@ -29,7 +29,7 @@
 
 ---
 
-# CHANGELOG — paper-engine
+# CHANGELOG — shaper-skill
 
 ## v3.1.0 (2026-05-01) — PRE_WRITE_GUARD: 사전생성형 전환
 
@@ -77,7 +77,7 @@ v3.1 목표: 사전생성형 전환 (1번 → 2번 메커니즘)
 
 ---
 
-# CHANGELOG — paper-engine
+# CHANGELOG — shaper-skill
 
 ## v3.0.0 (2026-05-01) — HUMANIZE_GATE: AI 문서티 0에 수렴
 
@@ -94,7 +94,7 @@ v3.1 목표: 사전생성형 전환 (1번 → 2번 메커니즘)
 
 - 5축 리서치: AI탐지 학술논문(GPTZero·DetectGPT·burstiness) · 한국어 번역투 코퍼스 · 한국 명문 산문(김훈·박완서·신영복·유시민) · AI 장황 메커니즘(RLHF length bias) · 한국 비즈 산문 품질 기준
 - 형 코퍼스 23개 PDF·1MB·19,874줄 실측: AI 5대 흔적 단어("결론적으로·요약하면·함에 있어·라고 할 수 있·주목할") = 0회 · 형 시그니처("직접·그냥·왜·어떻게·정말·확실히·진짜·딱·근데·솔직히") = 합 196회 · 작업라벨(1축·2축·3축·레이어·페이즈) = 0회
-- 리서치 박제: VAULT/_skills research/paper-engine_humanize_2026-05.md + VAULT/_skills research/paper-engine/2026-05-01_humanize-gate-design.md
+- 리서치 박제: VAULT/_skills research/paper-engine_humanize_2026-05.md + VAULT/_skills research/shaper-skill/2026-05-01_humanize-gate-design.md
 
 ### 변경
 
@@ -123,7 +123,7 @@ v3.1 목표: 사전생성형 전환 (1번 → 2번 메커니즘)
 
 ---
 
-# CHANGELOG — paper-engine
+# CHANGELOG — shaper-skill
 
 ## v2.6.0 (2026-04-26) — HERO 형식 기본 모드 + 어조 룰
 
@@ -281,7 +281,7 @@ UP v39.6와 정합. UP §6 OUTPUT_COMPRESSION은 대화 출력 ≤33% 압축. pa
 ### 연동
 - UP v39.6 §6: MODE_S(≤500자)는 UP §6 3블록(CONCLUSION·CASE·GROUND) 공유
 - design-skill v1.4: HTML 시각소스 감지 훅(§F) 유지, C9 cascade 호환
-- 스킬 충돌: UP §5 "§6 > skill_defaults" 규칙상 대화 출력은 UP §6 우선, 문서 산출은 paper-engine §A~§E 우선
+- 스킬 충돌: UP §5 "§6 > skill_defaults" 규칙상 대화 출력은 UP §6 우선, 문서 산출은 shaper-skill §A~§E 우선
 
 ---
 
@@ -308,7 +308,7 @@ UP v39.6와 정합. UP §6 OUTPUT_COMPRESSION은 대화 출력 ≤33% 압축. pa
 
 ## v1.0.0 (2026-04-17)
 
-**개명 + 리팩터**. deliverable-engine → paper-engine.
+**개명 + 리팩터**. deliverable-engine → shaper-skill.
 
 ### 변경
 - skill-doctor 67.7 → 100점 대응 완료 (🔴 0, 🟠 0)

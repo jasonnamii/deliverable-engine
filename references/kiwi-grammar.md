@@ -84,7 +84,7 @@ YES → 진행. NO → 재생성.
 
 ---
 
-## 4. paper-engine 기존 INV와 매핑
+## 4. shaper-skill 기존 INV와 매핑
 
 | KIWI 항 | 매핑 INV |
 |---|---|

@@ -2,7 +2,7 @@
 
 > **출처:** `Library/_sharing/_sharing/` 형 코퍼스 1.05MB (라텔 PT 17개·Cre8or Club IR 2개·BP·매출설명 등 25개 PDF)
 > **추출 일자:** 2026-05-01
-> **사용 시점:** paper-engine §B-PRE 사전작성가드 발동 시 본 사전 참조. 형 결로 *직접 학습* 자료.
+> **사용 시점:** shaper-skill §B-PRE 사전작성가드 발동 시 본 사전 참조. 형 결로 *직접 학습* 자료.
 
 ---
 
@@ -92,7 +92,7 @@ Z가 부족하기 때문에 W가 작동 안 한다
 
 ### 작성 시점에 본 예시 *흡수*
 
-1. paper-engine §B-PRE 진입 시 본 사전 1회 Read
+1. shaper-skill §B-PRE 진입 시 본 사전 1회 Read
 2. Headline·Promise·HERO 작성 *직전*에 §1·§2 패턴 흡수
 3. 의식적 박제 ✗ — 결로 흐름
 
@@ -105,4 +105,4 @@ Z가 부족하기 때문에 W가 작동 안 한다
 
 ## §5. 헤리티지
 
-- v1.0 (2026-05-01) — pdftotext 추출 후 빈도 분석. paper-engine §B-PRE의 "형 코퍼스 1MB 등장 만한가?" 자가검증 룰의 *실측 데이터 백킹*.
+- v1.0 (2026-05-01) — pdftotext 추출 후 빈도 분석. shaper-skill §B-PRE의 "형 코퍼스 1MB 등장 만한가?" 자가검증 룰의 *실측 데이터 백킹*.
