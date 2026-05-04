@@ -19,6 +19,8 @@ vault_dependency: SOFT
 
 상세 헤리티지 (v2.3~v3.4) = `CHANGELOG.md`
 
+**v4.1 외부송출 cascade (2026-05-04):** §G 파이프라인 ⑨→⑩(외부송출 cascade)→⑪(산출) 신설. 외부 송출 의도 감지 시 `submission-cleanup` 스킬 자동 호출 (14축·7서브슬롯 결정주의 박멸). 작성 단계(§B·§C·§D·§H)와 직교 — shaper=작성 중·submission-cleanup=송출 직전. INV 26 신설. **변이 동기:** 형 피드백 — "다음 액션 실행" → 분리한 submission-cleanup이 외부 송출 시점에 자동 발동되도록 cascade 박제.
+
 ---
 
 ## 🎯 본질 핵심 5종 (v4.0 — 18개 INV 인지부담 압축)
@@ -136,7 +138,9 @@ CHECK: 산출물인데 미발동 = FAIL → 폐기·재출력.
    ④-a 9패스 ANTI_BLOAT (③ 충실 시 ≤1패스) ④-b 6항 QC ④-c §H 8중 자체스캔 (INV 13~25)
    적발 → 재작성 (루프 max 2회)
 → ⑤ §E FORMAT+CEW+반대주장 → ⑥ design-skill → ⑦ [HTML]qc-mobile/[MD]div 검사 → ⑧ Pin↔Body (INV 11)
-→ ⑨ §B-CONFIRM 형 컨펌 게이트 (v3.2, INV 20) → ⑩ 산출
+→ ⑨ §B-CONFIRM 형 컨펌 게이트 (v3.2, INV 20) → ⑩ **외부송출 cascade** (v4.1) → ⑪ 산출
+
+> **⑩ 외부송출 cascade (v4.1, INV 26):** 산출 직전 외부 송출 의도 감지 — P5에 .md/.docx/.pdf/.pptx + (`외부 제출`·`송출`·`IR`·`제안서`·`정책문서`·`납품`·`출고`) hit OR 형 명시 호출 → **submission-cleanup 스킬 자동 호출** (14축·7서브슬롯 결정주의 박멸). 작성 단계 게이트(§B·§C·§D·§H)와 직교 — shaper는 작성 중·submission-cleanup은 송출 직전. 미해당 = 스킵, ⑪ 직행.
 
 ** v4.0 메커니즘: 사전생성 8종 충실 시 사후 1회 안전망. 통합 정본 3종으로 false positive 차단. **
 ```
@@ -200,3 +204,5 @@ CHECK: 산출물인데 미발동 = FAIL → 폐기·재출력.
 ```
 
 상세: `references/lexicon-ban.md` · `formality-gate.md` · `kiwi-grammar.md` · `pre-write-guard.md` · `humanize-gate.md` · `hero-format.md` · `no-work-label.md` · `doc-types.md` · `cascade-protocol.md` · `jason-pt-toolkit.md` · `jason-corpus-examples.md` · `CHANGELOG.md` (v2.3~v4.0 헤리티지)
+
+**외부 cascade:** `submission-cleanup` 스킬 (외부 송출 14축 정제·축14 정본 `ai-not-canon.md` 단일 권위 — UP §L2·shaper·submission-cleanup 모두 본 정본 참조)
