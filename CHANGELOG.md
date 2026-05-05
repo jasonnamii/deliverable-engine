@@ -367,3 +367,63 @@ UP v39.6와 정합. UP §6 OUTPUT_COMPRESSION은 대화 출력 ≤33% 압축. pa
 ### 진단 점수 목표
 - v3.4: 74/100
 - v4.0 목표: 90+/100
+
+## v4.1.0 — 2026-05-05 — 서사층 신설 (§B-NARR + INV 27)
+
+### 변이 동기
+형 피드백 — "단어와 문장 수준에서는 잘 준비되어 있는데, 맥락적·흐름적·서사적인 부분이 약해. 중복 회피·스파인-백본 정합·홈즈 통찰·아날로지 귀납이 잘 잡혀야해." → v4.0이 단어층(어휘·격식·문법)만 통폐합·서사층 ZERO. cleanup의 콘텐츠불변 원칙으로 사후 재구성 ✗ → shaper에 사전강제 필수.
+
+### 추가 (3건)
+
+1. **INV 27 신설** — §B-NARR 단일우산 4종 (스파인응결·에디터페어·반박자동석·CEWA진화)
+2. **§A-5 SPINE 응결** — 라우터에 신설. Claude 제안→형 컴펌 1회. MODE_M·L 강제·MODE_S 면제
+3. **§B-NARR 섹션** — §B-PRE(미시) 직후·§B-구조 직전 강제. 거시 4문 자기검열
+
+### 룰 진화 (2건)
+
+1. **INV 10 CEW → CEWA** — Analogy 슬롯 의무 추가. 주장당 유사 성공사례 1+
+2. **INV 11 Pin↔Body 강화** — 매핑표에 "스파인 변주" 컬럼. 헤드라인-only 통독으로 스파인 직관 가능 강제
+
+### 신규 references (2종)
+
+- `narr-gate.md` — 서사층 1정본 (4종 룰·거시 4문·SCOPE·충돌해소·cleanup 직교)
+- `rhetoric-deck.md` — 6수사 카드덱 (Holmes·Pathos·Analogy·Numbers·Story·Image)
+
+### 확장
+
+- `_common/persona-corpus.md §2-EXT` — 편집자 페르소나 듀얼 캐스팅 (이오덕 디폴트·작성자=편집자 충돌 시 자동 전환)
+- `§G 파이프라인` — ④ §B-NARR 단계 추가·12 단계로 확장
+- `§H 자체스캔` — 9중으로 확장 (NARR_SCAN 1문 LLM 판정 추가)
+
+### 1차 출처
+
+`VAULT/_skills research/shaper-skill/2026-05-05_R-NARR-LIGHT.md` — 4축 LIGHT 리서치 (스파인-백본·홈즈수사·반복회피·에디터페어). Minto 1985·강원국 2014·유시민 2015·Cialdini 1984·Aristotle BC 350·Heath 2007·Kahneman 2011·Pound/Eliot 1922·Pixar Catmull 2014·Klein 2007.
+
+### cleanup 직교성
+
+shaper §B-NARR = 사전강제·재작성. cleanup 축15(v1.2 신설) = 사후검출·경고만·콘텐츠 불변. cleanup 적발 시 shaper로 *되돌려* §B-NARR 재진입.
+
+### 효과
+
+- 단어층(§B-PRE 8) + 서사층(§B-NARR 4) 이중 사전게이트
+- 토큰 1.3~1.5배 증가 (편집자 4문·반박자 자문) — 자문은 *내적*만·본문 출력 ✗로 출력 부담 ZERO
+- 산출물 거시 결함 4종(스파인부재·헤드라인비백본·중복·논리편중) 사전 박멸
+
+## v4.1.1 — 2026-05-05 — NARR_SCAN 결정주의화 (skill-doctor P1·P4·P5)
+
+### 변이 동기
+skill-doctor v2.1 진단 결과 — ②-4 부정확·확장 FAIL (NARR_SCAN LLM 1문 비결정주의·INV 25 위배), ⑤-3 비대·유지 FAIL (SKILL.md 10198B), ⑦-3 진화불능·유지 WARN (9중 스캔 매핑 모호).
+
+### 변경 (3건)
+
+1. **P1 NARR_SCAN 결정주의화** — `humanize_check.py` 9번째 카테고리 신설. 헤드라인(H1·H2·H3) 추출 + 구조어휘 BAN(현황·분석·시사점·결론·요약·개요·배경·검토·고찰·정리·마무리·도입·본론·맺음말·총괄) grep. LLM 1문 제거·재현성 확보. INV 25 결정성 우선 정합.
+
+2. **P4 SKILL.md 압축** — 10198B → 9217B (-9.6%). §H 매핑 명시(8 카테고리+NARR_SCAN=9)·예시 단일화·상세 INV 표 통합. 본질 5종+거시 4문 *불변*.
+
+3. **P5 9중 스캔 매핑 명시** — §H에 9 카테고리 명시 (8 grep + NARR_SCAN grep). v4.1 "9중" 명목·v4.1.1 결정주의 9 카테고리 정합.
+
+### 효과
+
+- skill-doctor 점수 78→90+ 목표
+- humanize_check 9 카테고리 결정주의 일관성
+- 같은 산출물 재현성 100%

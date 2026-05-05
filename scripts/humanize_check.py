@@ -167,6 +167,43 @@ SELF_REF_MARKERS = [
 ]
 
 
+# 9. NARR_SCAN (v4.1.1 신설·INV 27 §B-NARR 결정주의 보조)
+# 헤드라인 구조어휘 BAN — 스파인 직관 불가 차단
+NARR_SCAN = [
+    "현황", "분석", "시사점", "결론", "요약", "개요",
+    "배경", "검토", "고찰", "정리", "마무리",
+    "도입", "본론", "맺음말", "총괄"
+]
+
+
+def extract_headlines(text: str):
+    """v4.1.1 — H1·H2·H3 헤드라인 추출"""
+    headlines = []
+    for line_no, line in enumerate(text.splitlines(), start=1):
+        s = line.strip()
+        if s.startswith("# ") or s.startswith("## ") or s.startswith("### "):
+            text_only = s.lstrip("#").strip()
+            headlines.append({"line": line_no, "text": text_only})
+    return headlines
+
+
+def scan_narr(text: str):
+    """v4.1.1 NARR_SCAN — 헤드라인 구조어휘 BAN 결정주의 grep"""
+    headlines = extract_headlines(text)
+    hits = []
+    for h in headlines:
+        for ban in NARR_SCAN:
+            if ban in h["text"]:
+                hits.append({
+                    "line": h["line"],
+                    "match": ban,
+                    "headline": h["text"][:60],
+                    "warning": f"헤드라인 구조어휘 '{ban}' — 스파인 변주로 재작성 권장"
+                })
+                break
+    return hits
+
+
 def scan_humanize(text: str, allow_self_ref: bool = False):
     """v4.0 8 카테고리 통합 스캔."""
     hits = []
