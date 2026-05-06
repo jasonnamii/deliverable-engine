@@ -32,7 +32,7 @@ EXAMPLE_HEADING_PATTERN = re.compile(r"^##\s*예시", re.MULTILINE)
 
 # 1. 형이 명시한 1순위 라벨 (구조 라벨)
 LABEL_STRUCTURE = [
-    "레이어", "트랙", "갈래축", "페이즈",
+    "레이어", "트랙", "범주축", "페이즈",
 ]
 # "축" 단독은 너무 일반어 → 패턴(N축)으로만
 
