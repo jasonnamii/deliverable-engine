@@ -30,6 +30,7 @@
 | "외래어 아니니 OK" | ✗ |
 | "마케팅 업계어니 OK" | ✗ |
 | "박웅현이 쓸 법하니 ALLOW" | ✗ (UTTER 명시 ✗ = BAN) |
+| **🆕 "내 검증 끝났으니 OK"** | ✗ (수동 grep·화이트리스트 누락·section ID 축소 = false-clean. `humanize_check.py scan_abstract()` 자동 grep만 인정) |
 
 → UTTER 모드는 *블록 호출 시 명시*만 인정. 추론·암묵 ✗.
 

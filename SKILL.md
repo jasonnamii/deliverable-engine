@@ -1,9 +1,9 @@
 ---
 name: shaper-skill
-version: 4.3.0
+version: 4.4.0
 description: |
-  shaper-skill — NYT 산출물 허브. v4.3 ABSTRACT-BAN(§B-PRE 10종·본문 추상명사 차단·UTTER 블록 면제·block-level 모드 분기). v4.2 UTTER(박웅현). 단어층 10 + 서사층 4 이중 사전게이트 + UTTER + ABSTRACT-BAN.
-  P1: 산출물, 보고서, 기획안, 제안서, 진단서, 전략서, 리포트, 글쓰기, 1pager, 플레이북, PRD, HERO, 휴머나이즈, AI문서티, 번역투, 장황, 사전가드, 입니다체, 합쇼체, 격식체, UPBAN, 자가합리화차단, KIWI, 한자투, 자신없는표현, 부사자제, 서사층, 스파인, 백본정합, NARR게이트, 에디터페어, 반박자동석, CEWA, 아날로지, 6수사덱, UTTER, 발화모드, 박웅현, 박웅현모드, 매니페스토, 헤로카피, 캠페인카피, 페르소나시나리오, 브랜드스토리, 일상어, 여덟단어, 추상명사BAN, 추상어금지, ABSTRACT_BAN, NYT모드, 뉴욕타임즈모드, 분석체, 모드분리, 블록분기.
+  shaper-skill — NYT 산출물 허브. v4.4 BIZ_DOC(외부독자 비즈문서 본문·완결문·연결조사·풀어쓰기·§B-PRE ①②④⑤ 분기). v4.3 ABSTRACT-BAN(§B-PRE 10종·본문 추상명사 차단·UTTER 블록 면제·block-level 모드 분기). v4.2 UTTER(박웅현). 5 DOC_TYPE(DELIVER·DIAGNOSE·EVALUATE·CONVERGE·UTTER + 🆕 BIZ_DOC).
+  P1: 산출물, 보고서, 기획안, 제안서, 리포트, 글쓰기, 1pager, 플레이북, PRD, HERO, 휴머나이즈, 번역투, 사전가드, 합쇼체, 격식체, KIWI, 서사층, 스파인, NARR게이트, CEWA, 아날로지, UTTER, 박웅현, 매니페스토, 헤로카피, ABSTRACT_BAN, 분석체, 블록분기, BIZ_DOC, 비즈문서, 투자제안, 전략설명서, IR본문, 기획안본문, 외부독자, 완결문, 연결조사, 풀어쓰기.
   P2: 써줘, 작성해줘, 만들어줘, 정리해줘, write, draft, create.
   P3: NYT inverted pyramid, CEWA, hero format, humanize gate, ban lexicon, pre-write guard, formality gate, KIWI, narrative gate, abstract-noun ban, UTTER mode, block-level routing.
   P5: md파일로, html파일로, 보고서로.
@@ -15,7 +15,9 @@ vault_dependency: SOFT
 
 산출물 품질 중앙 허브. 산문체 금지·NYT 강제. 단어층(미시) + 서사층(거시) 이중 사전게이트.
 
-**🆕 v4.3 (2026-05-07):** ⑩ ABSTRACT-BAN 신설 (§B-PRE 10종). 본문 추상명사 차단·UTTER 블록만 ALLOW. block-level 모드 분기.
+**🆕 v4.4.0 (2026-05-07):** ⑪ BIZ_DOC 모드 신설 (DOC_TYPE 5번째). 외부 독자 비즈문서 본문 전용. §B-PRE ①②④⑤ 강제 해제·완결문·연결조사·풀어쓰기·LV3 강제·박웅현 톤(시그니처) OFF. 카피·매니페스토 블록은 UTTER로 명시 면제. 정본 = `biz-doc-mode.md`. c8 c8-launching-campaign 본문 검증 통과.
+**v4.3.1 (2026-05-07):** word-boundary BAN(OS·영문약어 substring FP 차단)·ALLOW 화이트리스트(임팩트 매트릭스 표준)·HTML 주석 면제·자가합리화 5번째 마커("내 검증 끝났으니 OK"). Edit·Patch 워크플로우 명시 게이트.
+**v4.3:** ⑩ ABSTRACT-BAN 신설 (§B-PRE 10종). 본문 추상명사 차단·UTTER 블록만 ALLOW. block-level 모드 분기.
 **v4.2:** UTTER 모드(박웅현). **v4.1.1:** NARR_SCAN 결정주의. **v4.1:** §B-NARR 4종·INV 27.
 헤리티지 = `CHANGELOG.md`
 
@@ -57,8 +59,9 @@ vault_dependency: SOFT
 | **27** | **🆕 §B-NARR 단일우산 (v4.1)** — 거시 사전가드 4종. MODE_M·L 강제. 정본 = `narr-gate.md` |
 | **28** | **🆕 UTTER 분기 (v4.2)** — DOC_TYPE=UTTER 시 작성자=박웅현·편집자=OFF·§B-PRE(격식 LV1·문단≤80자 면제·시그니처 보존)·§B-NARR(N1만·N2~N4 OFF·N4 CEWA→CEA). UP 발화모드 cascade 채널. UTTER 미명시·다른 타입 박웅현 호출 ✗ |
 | **🆕 29** | **🆕 ABSTRACT-BAN (v4.3)** — §B-PRE ⑩. 본문 추상명사 BAN / UTTER 블록 ALLOW. 정본 = `abstract-ban.md` |
+| **🆕 30** | **🆕 BIZ_DOC 분기 (v4.4)** — DOC_TYPE 5번째. 외부 독자 비즈문서 본문 = §B-PRE ①②④⑤ 분기 해제·완결문·연결조사·풀어쓰기·LV3 강제·시그니처 OFF·박웅현 톤 차단. 카피 블록 UTTER 면제 유지. 정본 = `biz-doc-mode.md` |
 
-> **v4.3 본질:** `narr-gate.md`(서사층) + `rhetoric-deck.md`(6수사) + `lexicon-ban.md §2-9`(추상명사층). 우선순위: 22 > 16 > 13 > 25 > **27** > **🆕 29** > 17·18.
+> **v4.4 본질:** `biz-doc-mode.md`(외부독자 본문) + `narr-gate.md`(서사층) + `rhetoric-deck.md`(6수사) + `lexicon-ban.md §2-9`(추상명사층). 우선순위: 22 > 16 > 13 > 25 > **27** > **🆕 29** > **🆕 30** > 17·18.
 
 > **직교:** §B-PRE 미시·§B-NARR 거시·둘 다 사전강제. cleanup 축15는 사후 검출만.
 
@@ -67,8 +70,8 @@ vault_dependency: SOFT
 ## §A. ROUTER
 
 - **A-1 길이:** ≤500자 MODE_S / 500~2000자 MODE_M / >2000자 MODE_L
-- **A-2 DOC_TYPE:** DELIVER/DIAGNOSE/EVALUATE/CONVERGE/**🆕 UTTER (v4.2)**. = `doc-types.md` · UTTER = 발화·카피·매니페스토·페르소나 시나리오·브랜드 스토리·헤로카피
-- **A-3 PERSONA:** 작성자(DELIVER=강원국·DIAGNOSE/EVALUATE=이오덕·CONVERGE=유시민·HERO=김훈·**UTTER=박웅현**) + 편집자(이오덕·UTTER 시 OFF). = `_common/persona-corpus.md §2·§2-EXT`
+- **A-2 DOC_TYPE:** DELIVER/DIAGNOSE/EVALUATE/CONVERGE/UTTER (v4.2)/**🆕 BIZ_DOC (v4.4)**. = `doc-types.md` · UTTER = 발화·카피·매니페스토·페르소나 시나리오·브랜드 스토리·헤로카피 · 🆕 BIZ_DOC = 외부독자 비즈문서 본문(투자제안·전략설명서·기획안본문·IR본문). 정본 = `biz-doc-mode.md`
+- **A-3 PERSONA:** 작성자(DELIVER=강원국·DIAGNOSE/EVALUATE=이오덕·CONVERGE=유시민·HERO=김훈·UTTER=박웅현·**🆕 BIZ_DOC=유시민**) + 편집자(이오덕·UTTER 시 OFF·BIZ_DOC=이오덕). = `_common/persona-corpus.md §2·§2-EXT`
 - **A-4 RELATION:** 수신자 LV(1~4) 결정. = `formality-gate.md`
 - **🆕 A-5 SPINE (v4.1):** Claude 1줄(≤30자) 제안 → 형 컴펌 1회 (`🎯 스파인: "____" [O/S/R]`). MODE_M·L 강제. = `narr-gate.md §2`
 
@@ -80,9 +83,11 @@ vault_dependency: SOFT
 ①단문 8~20자 ②시그니처 ③BAN 회피 ④1문장 1명제 ⑤문단 ≤80자 ⑥격식 LV ⑦작업라벨 회피 ⑧KIWI 문법 ⑨**의도 단어 따옴표 (Intent-Quote)** ⑩**🆕 ABSTRACT-BAN (추상명사 차단)**. = `pre-write-guard.md`·`lexicon-ban.md §2-9`
 
 **⑨ Intent-Quote (v4.3):** 일반어를 *특별 의미로 재정의*해 쓸 때 작은따옴표(' ') 강제. 의도 마킹·1초 멈춤 신호. UTTER 강제. = `pre-write-guard.md`
-**🆕 ⑩ ABSTRACT-BAN (v4.3):** 본문 추상명사 BAN (주권·자산·OS·시그니처·페르소나·구축·회복·진화 등 31종). UTTER 블록만 ALLOW. 3대 FAIL = 정의 누락·1문장 합성·영문+한자 결합. = `abstract-ban.md`
+**🆕 ⑩ ABSTRACT-BAN (v4.3.1):** 본문 추상명사 BAN. UTTER 블록만 ALLOW. 3대 FAIL = 정의 누락·1문장 합성·영문+한자 결합. **신규 생성·Edit·Patch 모두 동일 게이트.** ALLOW = 임팩트(매트릭스 표준). word-boundary BAN = OS. = `abstract-ban.md`
 
 **UTTER 분기:** ⑤≤80자 면제·⑥LV1·⑦라벨ZERO·시그니처 강화. ②③④⑧⑩(UTTER ALLOW) 유지.
+
+**🆕 BIZ_DOC 분기 (v4.4):** ① 단문 강제 OFF (20~40자 권장)·② 시그니처 OFF·④ 종속절 ALLOW·⑤ 문단 ≤200자·⑥LV3 강제. ③⑦⑧⑨⑩ 유지. 정본 = `biz-doc-mode.md §3`.
 
 ### 🆕 §B-NARR (v4.1, 4종 서사층, MODE_M·L)
 
@@ -97,10 +102,12 @@ vault_dependency: SOFT
 
 **UTTER 분기:** N1 강제·N2 OFF·N3 OFF·N4 → CEA(Claim+Evidence+Analogy).
 
-상세 = `narr-gate.md`
+**🆕 BIZ_DOC 분기 (v4.4):** N1·N2·N3·N4 모두 강제 (외부 독자에겐 서사층이 더 중요). CEWA 풀강제.
+
+상세 = `narr-gate.md`·`biz-doc-mode.md §4`
 
 ### 📚 References
-정본: `lexicon-ban.md`·`formality-gate.md`·`kiwi-grammar.md`·`narr-gate.md`·`rhetoric-deck.md`·🆕`abstract-ban.md`
+정본: `lexicon-ban.md`·`formality-gate.md`·`kiwi-grammar.md`·`narr-gate.md`·`rhetoric-deck.md`·`abstract-ban.md`·🆕`biz-doc-mode.md`
 도구: `pre-write-guard.md`·`humanize-gate.md`·`hero-format.md`·`doc-types.md`·`cascade-protocol.md`·`jason-pt-toolkit.md`·`jason-corpus-examples.md`·`no-work-label.md`·`_common/persona-corpus.md`
 1차 출처: `VAULT/_skills research/shaper-skill/2026-05-05_R-NARR-LIGHT.md`
 
@@ -156,6 +163,8 @@ Headline → 의사결정 → Lead → Nut graf(MODE_L) → Body(소제목+HERO+
 - **UTTER 모드에 분석체/CEWA 4종/LV3·4/편집자** → 박웅현 위반. UTTER = LV1·CEA·편집자 OFF
 - **DELIVER·CONVERGE에 박웅현** → UTTER 전용·침범 ✗
 - **🆕 (v4.3) ⑩ ABSTRACT-BAN** — 본문 추상명사 합성·블록분리 미실시·"컨셉이니 예외" 자가합리화 → 모두 FAIL. 정본 = `abstract-ban.md`
+- **🆕 (v4.4) ⑪ BIZ_DOC 미적용** — 외부 독자 비즈문서 본문에 ① 단문 강제·② 시그니처(직접·그냥·왜·정말) 주입·④ 1문장 1명제 압축 = 메모형 변질·외부 독자 위화감. DOC_TYPE 판정 시 외부 독자 명시되면 BIZ_DOC 강제. 정본 = `biz-doc-mode.md`
+- **🆕 (v4.4) BIZ_DOC ↔ UTTER 영토 침범** — 비즈문서 본문 전체를 박웅현 톤으로 작성 = UTTER 침범 = FAIL. 본문 = BIZ_DOC, 카피 블록만 UTTER 명시 면제. block-level 분기 그대로
 
 ## ❌ WRONG vs ✅ CORRECT (v4.1 서사층 · v4.3 추상명사층)
 
@@ -172,6 +181,20 @@ Headline → 의사결정 → Lead → Nut graf(MODE_L) → Body(소제목+HERO+
 ✅ UTTER 카피: "알고리즘 주권 회복" (블록 명시 면제 OK)
 ```
 상세 = `abstract-ban.md`
+
+**🆕 비즈니스 문서층 (v4.4 · ⑪ BIZ_DOC):**
+```
+❌ BIZ_DOC 본문에 카피 톤(메모형):
+   "콘텐츠 공급 과잉 + 알고리즘 단축화. 창작자 자아 소진이 신규 시장 신호. 협업·도시 자리 부재가 구조적 공백."
+   → 명사구 나열·조사 누락·외부 독자에게 메모처럼 읽힘 = FAIL
+
+✅ BIZ_DOC 본문(완결문·연결조사·풀어쓰기):
+   "콘텐츠 공급 과잉과 알고리즘 피로는 새로운 플랫폼 전환 신호입니다. 창작자 자아 소진은 단순 현상이 아니라 새로운 시장 기회의 시작입니다. 현재 시장에는 협업 구조와 오프라인 기반 창작 장면이 부재합니다."
+
+✅ 같은 문서 안 UTTER 카피 블록 (block-level 분기):
+   <div class="manifesto-block">"광고를 만들지 않았습니다. 사건을 만들었습니다."</div>
+```
+상세 = `biz-doc-mode.md`
 
 ---
 
@@ -194,6 +217,13 @@ Headline → 의사결정 → Lead → Nut graf(MODE_L) → Body(소제목+HERO+
 ❌ "양평 DNA는 정원으로 수렴되며 시장 데이터 분석 결과 베팅할 필요가 있다." (분석체)
 ✅ "양평엔 정원이 있다. 그게 다야. // 베어트리파크에 7년 갔다. 매번 같은 자리에 선다. 사람들이 멈춘다. 그리고 다시 온다. // 정원이 답이다." (박웅현)
 
-상세: `narr-gate.md`·`rhetoric-deck.md`·`lexicon-ban.md`·`formality-gate.md`·`kiwi-grammar.md`·`pre-write-guard.md`·`humanize-gate.md`·`hero-format.md`·`doc-types.md`·`cascade-protocol.md`·`jason-pt-toolkit.md`·`_common/persona-corpus.md`·`CHANGELOG.md`
+### 🆕 예시 3 — BIZ_DOC (외부 독자 비즈문서, v4.4)
+요청 = "C8 런칭 캠페인 기획안 본문. 투자자·관계자용" (BIZ_DOC·MODE_L) → 작성자=유시민·편집자=이오덕 → §B-PRE BIZ 분기(①②④⑤ OFF·⑥LV3) → §B-NARR 풀강제 → 작성.
+**§A-5:** `🎯 스파인: "1만 활성 사용자가 첫 분기점이다." [O/S/R]`
+❌ BIZ_DOC 본문: "1만이 분기점입니다. 그다음은, 광고 없이 돕니다." (메모형·박웅현 톤 침범)
+✅ BIZ_DOC 본문: "초기 목표는 1만 활성 사용자 확보입니다. 이 시점부터 연결 밀도가 의미를 갖기 시작합니다. 그다음부터는, 광고 없이도 돌아갑니다."
+✅ 같은 문서 매니페스토 블록(UTTER): "1만이 분기점입니다." (block-level 면제)
+
+상세: `biz-doc-mode.md`·`narr-gate.md`·`rhetoric-deck.md`·`lexicon-ban.md`·`formality-gate.md`·`kiwi-grammar.md`·`pre-write-guard.md`·`humanize-gate.md`·`hero-format.md`·`doc-types.md`·`cascade-protocol.md`·`jason-pt-toolkit.md`·`_common/persona-corpus.md`·`CHANGELOG.md`
 
 **외부 cascade:** `submission-cleanup` v1.2.x (14축 + 축15 서사층 검출·경고만)

@@ -179,16 +179,27 @@ NARR_SCAN = [
 
 # 10. ABSTRACT_BAN (v4.3 신설·INV 29 추상명사층 결정주의 grep)
 # 본문 추상명사 차단 — UTTER 블록만 ALLOW
+# v4.3.1: substring BAN 리스트 (기본)
 ABSTRACT_BAN = [
-    "주권", "자산", "OS", "플랫폼", "인프라", "생태계",
+    "주권", "자산", "플랫폼", "인프라", "생태계",
     "시그니처", "페르소나", "정체성",
     "구축", "재구축", "확립", "정립", "수립",
     "회복", "복원", "환원",
     "진화", "승화", "고도화", "혁신", "도약",
     "본질", "정수", "코어",
-    "가시성", "임팩트", "파급력",
+    "가시성", "파급력",
     "패러다임", "프레임워크", "방법론",
 ]
+
+# v4.3.1: word-boundary 강제 (영문 약어 — substring false positive 차단)
+# 예: "OS" → "CLOSE"·"GROSS"에서 매칭 ✗
+ABSTRACT_BAN_WORD = ["OS"]
+
+# v4.3.1: ALLOW 화이트리스트 (분야 표준 라벨·매트릭스 용어)
+# Risk Matrix 표준 용어 — "확률 × 임팩트" 영문 Probability × Impact 직역
+# 본문 산문이 아니라 라벨·메타 데이터일 때만 ALLOW 의도지만,
+# 형 코퍼스 사용 빈도 5+회 이상 = 마케팅 업계어로 통째 ALLOW 처리
+ABSTRACT_ALLOW = ["임팩트"]
 
 # UTTER 블록 마커 (이 마커가 같은 문서 직전 6줄 안에 있으면 면제)
 UTTER_BLOCK_MARKERS = [
@@ -199,10 +210,15 @@ UTTER_BLOCK_MARKERS = [
 
 
 def scan_abstract(text: str):
-    """v4.3 ABSTRACT_BAN — 본문 추상명사 grep. UTTER 블록 면제."""
+    """v4.3.1 ABSTRACT_BAN — 본문 추상명사 grep.
+    UTTER 블록 자동 면제 + HTML 주석 면제 + word-boundary BAN + ALLOW 화이트리스트.
+    """
     hits = []
     lines = text.split("\n")
     for i, line in enumerate(lines, 1):
+        # v4.3.1: HTML 주석 면제 (<!-- ... -->)
+        if line.strip().startswith("<!--") and line.strip().endswith("-->"):
+            continue
         # 직전 6줄 윈도우에 UTTER 마커 있으면 면제
         window = "\n".join(lines[max(0, i - 7):i])
         if any(m in window for m in UTTER_BLOCK_MARKERS):
@@ -210,12 +226,14 @@ def scan_abstract(text: str):
         # 자기참조 면제
         if any(m in line for m in SELF_REF_MARKERS):
             continue
-        # ALLOW (마케팅 업계어 단독)
-        if "패러다임" in line and "최적화" in line:
-            pass  # 둘 다 마케팅 업계어 ALLOW 컨텍스트면 통과
         line_hits = []
+        # substring BAN
         for ban in ABSTRACT_BAN:
-            if ban in line:
+            if ban in line and ban not in ABSTRACT_ALLOW:
+                line_hits.append(ban)
+        # word-boundary BAN (영문 약어)
+        for ban in ABSTRACT_BAN_WORD:
+            if re.search(r"\b" + re.escape(ban) + r"\b", line):
                 line_hits.append(ban)
         if len(line_hits) >= 2:
             hits.append({
@@ -367,6 +385,8 @@ def report():
         "HEDGE_BAN": [p[1] for p in HEDGE_BAN_PATTERNS],
         "MISC_BAN": MISC_BAN,
         "ABSTRACT_BAN": ABSTRACT_BAN,
+        "ABSTRACT_BAN_WORD": ABSTRACT_BAN_WORD,
+        "ABSTRACT_ALLOW": ABSTRACT_ALLOW,
         "UTTER_BLOCK_MARKERS": UTTER_BLOCK_MARKERS,
         "SIGNATURE_FORMER": SIG_FORMER,
         "ALLOW": list(ALLOW),

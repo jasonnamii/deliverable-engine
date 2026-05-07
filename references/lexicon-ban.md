@@ -133,11 +133,12 @@
 2. 1문장에 추상명사 2+ 동시 출현 = FAIL (예: "디지털 페르소나 자산" / "알고리즘 주권 회복")
 3. 추상명사 합성 (영문+한자 결합·한자+한자 결합) = FAIL (예: "Algorithm Sovereignty" 본문 노출, "자기 구축형 창작자 OS")
 
-**자가합리화 차단 (UP):**
+**자가합리화 차단 (UP, v4.3.1 — 5종):**
 - "컨셉이니 예외" ✗
 - "외래어 아니니 OK" ✗
 - "마케팅 업계어니 OK" ✗
 - "박웅현이 쓸 법하니 ALLOW" ✗ (UTTER 모드 명시 ✗ = BAN)
+- **🆕 "내 검증 끝났으니 OK" ✗** — 화이트리스트 누락·section ID 빠짐·grep 범위 축소로 인한 false-clean. 검증 = `humanize_check.py scan_abstract()` 자동 grep 통과만 인정. 수동 grep ✗.
 
 **UTTER 면제 매커니즘:** UTTER 모드로 호출된 블록만 ALLOW. 같은 문서 안에서도 본문(DELIVER) 블록 ✗ / 카피 블록(UTTER) ○. block-level 명시 면제만 인정.
 

@@ -29,7 +29,36 @@
 
 ---
 
-# CHANGELOG — shaper-skill
+# CHANGELOG
+
+## v4.4.0 (2026-05-07) — BIZ_DOC 모드 신설
+
+**근본 진단:** 기존 5종 (DELIVER·DIAGNOSE·EVALUATE·CONVERGE·UTTER)으론 외부 독자 비즈니스 문서 본문 영토 부재. DELIVER는 보도·1pager 중심·UTTER는 카피·매니페스토. 그 사이 빈자리(투자제안·전략설명서·기획안 본문·IR 본문)에서 카피 톤 침범 또는 박웅현 톤 침범으로 메모형 변질.
+
+**처방:** DOC_TYPE 6번째 BIZ_DOC 신설.
+- §B-PRE ① 단문 강제 OFF (20~40자 권장)
+- §B-PRE ② 시그니처(직접·그냥·왜·정말·진짜·근데) OFF — 외부 독자 위화감
+- §B-PRE ④ 1문장 1명제 → 종속절·연결조사 ALLOW (단, 명제 2+ 동시 ✗)
+- §B-PRE ⑤ 문단 ≤80자 → 문장 ≤60자·문단 ≤200자
+- §B-PRE ⑥ 격식 LV3 강제 (외부 독자)
+- §B-PRE ③⑦⑧⑨⑩ 유지
+- §B-NARR N1·N2·N3·N4 풀강제 (외부 독자에 서사층이 더 중요)
+- PERSONA: 작성자=유시민·편집자=이오덕 (CONVERGE와 동일)
+- block-level 분기: 같은 문서 안 카피 블록은 UTTER 명시 면제 (manifesto-block·copy-block·copy-list·hero-copy 등 마커)
+
+**검증:** c8-launching-campaign.html 본문 — GPT 제안 50건+ 검토 결과 BIZ_DOC 룰과 100% 정합. v4.4 적용 시 같은 산출물 1턴 생성 가능.
+
+**파일 변경:**
+- `references/biz-doc-mode.md` — 신규 정본
+- `references/doc-types.md` — 4종류 → 5종류
+- `references/pre-write-guard.md` — §1-bis BIZ_DOC 분기 신설
+- `SKILL.md` — version 4.3.1 → 4.4.0·INV 30 추가·§A-2/§A-3/§B-PRE/§B-NARR/Gotchas/WRONG-CORRECT/예시 3 추가
+
+**우선순위 갱신:** 22 > 16 > 13 > 25 > 27 > 29 > **30** > 17·18
+
+---
+
+ — shaper-skill
 
 ## v3.1.0 (2026-05-01) — PRE_WRITE_GUARD: 사전생성형 전환
 
