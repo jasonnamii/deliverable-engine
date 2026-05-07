@@ -177,6 +177,65 @@ NARR_SCAN = [
 ]
 
 
+# 10. ABSTRACT_BAN (v4.3 신설·INV 29 추상명사층 결정주의 grep)
+# 본문 추상명사 차단 — UTTER 블록만 ALLOW
+ABSTRACT_BAN = [
+    "주권", "자산", "OS", "플랫폼", "인프라", "생태계",
+    "시그니처", "페르소나", "정체성",
+    "구축", "재구축", "확립", "정립", "수립",
+    "회복", "복원", "환원",
+    "진화", "승화", "고도화", "혁신", "도약",
+    "본질", "정수", "코어",
+    "가시성", "임팩트", "파급력",
+    "패러다임", "프레임워크", "방법론",
+]
+
+# UTTER 블록 마커 (이 마커가 같은 문서 직전 6줄 안에 있으면 면제)
+UTTER_BLOCK_MARKERS = [
+    "UTTER", "박웅현", "매니페스토", "MANIFESTO",
+    "캠페인 카피", "헤로카피", "Hero 카피", "슬로건", "Sub-Message",
+    "copy-block", "copy-list", "copy-row", "manifesto-block",
+]
+
+
+def scan_abstract(text: str):
+    """v4.3 ABSTRACT_BAN — 본문 추상명사 grep. UTTER 블록 면제."""
+    hits = []
+    lines = text.split("\n")
+    for i, line in enumerate(lines, 1):
+        # 직전 6줄 윈도우에 UTTER 마커 있으면 면제
+        window = "\n".join(lines[max(0, i - 7):i])
+        if any(m in window for m in UTTER_BLOCK_MARKERS):
+            continue
+        # 자기참조 면제
+        if any(m in line for m in SELF_REF_MARKERS):
+            continue
+        # ALLOW (마케팅 업계어 단독)
+        if "패러다임" in line and "최적화" in line:
+            pass  # 둘 다 마케팅 업계어 ALLOW 컨텍스트면 통과
+        line_hits = []
+        for ban in ABSTRACT_BAN:
+            if ban in line:
+                line_hits.append(ban)
+        if len(line_hits) >= 2:
+            hits.append({
+                "line": i,
+                "matches": line_hits,
+                "text": line.strip()[:200],
+                "severity": "HIGH",
+                "warning": f"1문장 추상명사 {len(line_hits)}개 동시 출현 — UTTER 블록 ✗ → 일상어 변환 필수"
+            })
+        elif len(line_hits) == 1:
+            hits.append({
+                "line": i,
+                "matches": line_hits,
+                "text": line.strip()[:200],
+                "severity": "MID",
+                "warning": f"본문 추상명사 '{line_hits[0]}' — 첫 등장 일상어 정의 1줄 의무, 정의 없이 반복 시 FAIL"
+            })
+    return hits
+
+
 def extract_headlines(text: str):
     """v4.1.1 — H1·H2·H3 헤드라인 추출"""
     headlines = []
@@ -307,6 +366,8 @@ def report():
         "IDA": [p[1] for p in IDA_PATTERNS],
         "HEDGE_BAN": [p[1] for p in HEDGE_BAN_PATTERNS],
         "MISC_BAN": MISC_BAN,
+        "ABSTRACT_BAN": ABSTRACT_BAN,
+        "UTTER_BLOCK_MARKERS": UTTER_BLOCK_MARKERS,
         "SIGNATURE_FORMER": SIG_FORMER,
         "ALLOW": list(ALLOW),
     }
